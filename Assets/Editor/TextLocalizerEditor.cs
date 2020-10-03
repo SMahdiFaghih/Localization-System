@@ -117,16 +117,11 @@ public class TextLocalizerSearchWindow : EditorWindow
 
     private void GetSearchResults()
     {
-        if (value == null)
-        {
-            return;
-        }
-
         EditorGUILayout.BeginVertical();
         Scroll = EditorGUILayout.BeginScrollView(Scroll);
         foreach (KeyValuePair<string ,string> element in dictionary)
         {
-            if (element.Key.ToLower().Contains(value.ToLower()) || element.Value.ToLower().Contains(value.ToLower()))
+            if (value == null || element.Key.ToLower().Contains(value.ToLower()) || element.Value.ToLower().Contains(value.ToLower()))
             {
                 EditorGUILayout.BeginHorizontal("box");
                 Texture deleteIcon = (Texture)Resources.Load("delete");

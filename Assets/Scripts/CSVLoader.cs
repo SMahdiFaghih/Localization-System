@@ -39,7 +39,7 @@ public class CSVLoader : MonoBehaviour
 
         Regex CSVParser = new Regex(",(?=(?:[^\"]*\"[^\"]*\")*(?![^\"]*\"))");
 
-        for (int i=0;i < lines.Length;i++)
+        for (int i=1;i < lines.Length;i++)
         {
             string line = lines[i].Trim(' ');
 
