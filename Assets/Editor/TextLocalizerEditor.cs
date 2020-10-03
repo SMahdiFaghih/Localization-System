@@ -5,50 +5,57 @@ using UnityEditor;
 
 public class TextLocalizerEditWindow : EditorWindow
 {
+    public static string Key;
+    public static string[] Values = new string[System.Enum.GetNames(typeof(LocalizationManager.LocalizedLanguage)).Length];
+    public static bool IsOpen = false;
+
     public static void Open(string key)
     {
         TextLocalizerEditWindow window = new TextLocalizerEditWindow();
         window.titleContent = new GUIContent("Localizer Window");
         window.ShowUtility();
-        window.key = key;
-    }
+        IsOpen = true;
+        Key = key;
 
-    public string key;
-    public string[] values = new string[System.Enum.GetNames(typeof(LocalizationManager.LocalizedLanguage)).Length];
+        for (int i = 0; i < Values.Length; i++)
+        {
+            Values[i] = LocalizationManager.GetLocalizedValue(key, (LocalizationManager.LocalizedLanguage)System.Enum.GetValues(typeof(LocalizationManager.LocalizedLanguage)).GetValue(i));
+        }
+    }
 
     public void OnGUI()
     {
         EditorGUI.BeginChangeCheck();
-        key = EditorGUILayout.TextField("Key: ", key);
+        Key = EditorGUILayout.TextField("Key: ", Key);
         if (EditorGUI.EndChangeCheck())
         {
-            for (int i = 0; i < values.Length; i++)
+            for (int i = 0; i < Values.Length; i++)
             {
-                values[i] = LocalizationManager.GetLocalizedValue(key, (LocalizationManager.LocalizedLanguage)System.Enum.GetValues(typeof(LocalizationManager.LocalizedLanguage)).GetValue(i));
+                Values[i] = LocalizationManager.GetLocalizedValue(Key, (LocalizationManager.LocalizedLanguage)System.Enum.GetValues(typeof(LocalizationManager.LocalizedLanguage)).GetValue(i));
             }
         }
 
         EditorGUILayout.BeginVertical();
 
-        for (int i=0;i < values.Length;i++)
+        for (int i=0;i < Values.Length;i++)
         {
             EditorGUILayout.LabelField(System.Enum.GetName(typeof(LocalizationManager.LocalizedLanguage), i) + " Value: ", GUILayout.MaxWidth(100));
 
             EditorStyles.textArea.wordWrap = true;
-            values[i] = EditorGUILayout.TextArea(values[i], EditorStyles.textArea, GUILayout.Height(100), GUILayout.Width(400));
+            Values[i] = EditorGUILayout.TextArea(Values[i], EditorStyles.textArea, GUILayout.Height(100), GUILayout.Width(400));
         }
 
         EditorGUILayout.EndVertical();
 
         if (GUILayout.Button("Add"))
         {
-            if (IsKeyDefined(key))
+            if (IsKeyDefined(Key))
             {
-                LocalizationManager.Replace(key, values);
+                LocalizationManager.Replace(Key, Values);
             }
             else
             {
-                LocalizationManager.Add(key, values);
+                LocalizationManager.Add(Key, Values);
             }
         }
 
@@ -58,7 +65,7 @@ public class TextLocalizerEditWindow : EditorWindow
 
     private bool IsKeyDefined(string key)
     {
-        for (int i = 0; i < values.Length; i++)
+        for (int i = 0; i < Values.Length; i++)
         {
             if (LocalizationManager.GetLocalizedValue(key, (LocalizationManager.LocalizedLanguage)System.Enum.GetValues(typeof(LocalizationManager.LocalizedLanguage)).GetValue(i)) != null)
             {
@@ -67,11 +74,18 @@ public class TextLocalizerEditWindow : EditorWindow
         }
         return false;
     }
+
+    void OnDestroy()
+    {
+        IsOpen = false;
+    }
 }
 
 
-public class TextLocalizerSearchWindow :EditorWindow
+public class TextLocalizerSearchWindow : EditorWindow
 {
+    public static bool IsOpen = false;
+
     public static void Open()
     {
         TextLocalizerSearchWindow window = new TextLocalizerSearchWindow();
@@ -136,5 +150,10 @@ public class TextLocalizerSearchWindow :EditorWindow
         }
         EditorGUILayout.EndScrollView();
         EditorGUILayout.EndVertical();
+    }
+
+    void OnDestroy()
+    {
+        IsOpen = false;
     }
 }

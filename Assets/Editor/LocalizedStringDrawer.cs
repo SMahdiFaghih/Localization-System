@@ -51,7 +51,10 @@ public class LocalizedStringDrawer : PropertyDrawer
 
         if (GUI.Button(position, searchContent))
         {
-            TextLocalizerSearchWindow.Open();
+            if (!TextLocalizerSearchWindow.IsOpen)
+            {
+                TextLocalizerSearchWindow.Open();
+            }  
         }
 
         position.x += position.width + 2;
@@ -60,7 +63,10 @@ public class LocalizedStringDrawer : PropertyDrawer
         GUIContent addContent = new GUIContent(addIcon);
         if (GUI.Button(position, addContent))
         {
-            TextLocalizerEditWindow.Open(key.stringValue);
+            if (!TextLocalizerEditWindow.IsOpen)
+            {
+                TextLocalizerEditWindow.Open(key.stringValue);
+            }
         }
 
         if (dropdown)
