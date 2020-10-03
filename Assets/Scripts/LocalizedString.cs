@@ -16,7 +16,7 @@ public struct LocalizedString
     {
         get
         {
-            return LocalizationManager.GetLocalizedValue(key);
+            return LocalizationManager.GetLocalizedValue(key, LocalizationManager.GetCurrentLanguage());
         }
     }
 

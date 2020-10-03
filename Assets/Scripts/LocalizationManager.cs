@@ -50,15 +50,15 @@ public class LocalizationManager : MonoBehaviour
         LocalizedEnglishTexts = csvLoader.GetDictionaryValues("english");
     }
 
-    public static string GetLocalizedValue(string key)
+    public static string GetLocalizedValue(string key, LocalizedLanguage language)
     {
         if (!IsInit)
         {
             Init();
         }
 
-        string value = "Not Found!";
-        switch (CurrentLanguage)
+        string value = "";
+        switch (language)
         {
             case LocalizedLanguage.Farsi:
                 LocalizedFarsiTexts.TryGetValue(key, out value);
@@ -74,6 +74,10 @@ public class LocalizationManager : MonoBehaviour
     {
         for (int i = 0; i < values.Length; i++)
         {
+            if (values[i] == null)
+            {
+                continue;
+            }
             if (values[i].Contains("\""))
             {
                 values[i].Replace('"', '\"');
@@ -96,6 +100,10 @@ public class LocalizationManager : MonoBehaviour
     {
         for (int i=0;i < values.Length;i++)
         {
+            if (values[i] == null)
+            {
+                continue;
+            }
             if (values[i].Contains("\""))
             {
                 values[i].Replace('"', '\"');

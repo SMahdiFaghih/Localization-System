@@ -65,7 +65,7 @@ public class LocalizedStringDrawer : PropertyDrawer
 
         if (dropdown)
         {
-            var value = LocalizationManager.GetLocalizedValue(key.stringValue);
+            var value = LocalizationManager.GetLocalizedValue(key.stringValue, LocalizationManager.GetCurrentLanguage());
             GUIStyle style = GUI.skin.box;
             height = style.CalcHeight(new GUIContent(value), valueRect.width);
 
