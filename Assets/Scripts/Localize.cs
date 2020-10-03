@@ -17,7 +17,9 @@ public class Localize : MonoBehaviour
 
     public TargetComponent Target;
 
+    [HideInInspector]
     public AudioClip[] AudioClips;
+    [HideInInspector]
     public Sprite[] Sprites;
     public LocalizedString LocalizedString;
 

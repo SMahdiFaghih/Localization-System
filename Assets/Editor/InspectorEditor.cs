@@ -43,16 +43,28 @@ public class InspectorEditor : Editor
         switch (target)
         {
             case Localize.TargetComponent.AudioSource:
-                EditorGUILayout.PropertyField(audioClips, new GUIContent("AudioClips"), true);
+                EditorGUILayout.PropertyField(audioClips, new GUIContent("AudioClips:"), true);
+                ShowArrayProperty(audioClips);
                 break;
             case Localize.TargetComponent.Image:
-                EditorGUILayout.PropertyField(sprites, new GUIContent("Sprites"), true);
+                EditorGUILayout.PropertyField(sprites, new GUIContent("Sprites:"), true);
+                ShowArrayProperty(sprites);
                 break;
             case Localize.TargetComponent.Text:
-                EditorGUILayout.PropertyField(localizedString, new GUIContent("Text"), true);
+                EditorGUILayout.PropertyField(localizedString, new GUIContent("Key"), true);
                 break;
         }   
 
         serializedObject.ApplyModifiedProperties();
+    }
+
+    public void ShowArrayProperty(SerializedProperty list)
+    {
+        EditorGUI.indentLevel += 1;
+        for (int i = 0; i < list.arraySize; i++)
+        {
+            EditorGUILayout.PropertyField(list.GetArrayElementAtIndex(i), new GUIContent(System.Enum.GetName(typeof(LocalizationManager.LocalizedLanguage), i)));
+        }
+        EditorGUI.indentLevel -= 1;
     }
 }
