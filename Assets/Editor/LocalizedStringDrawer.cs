@@ -13,7 +13,7 @@ public class LocalizedStringDrawer : PropertyDrawer
     {
         if (dropdown)
         {
-            return height + 25;
+            return height + 20 * System.Enum.GetNames(typeof(LocalizationManager.LocalizedLanguage)).Length;
         }
 
         return 20;
@@ -71,13 +71,17 @@ public class LocalizedStringDrawer : PropertyDrawer
 
         if (dropdown)
         {
-            var value = LocalizationManager.GetLocalizedValue(key.stringValue, LocalizationManager.GetCurrentLanguage());
-            GUIStyle style = GUI.skin.box;
-            height = style.CalcHeight(new GUIContent(value), valueRect.width);
+            for (int i = 0; i < System.Enum.GetNames(typeof(LocalizationManager.LocalizedLanguage)).Length; i++)
+            {
+                var value = LocalizationManager.GetLocalizedValue(key.stringValue, (LocalizationManager.LocalizedLanguage)System.Enum.GetValues(typeof(LocalizationManager.LocalizedLanguage)).GetValue(i));
+                GUIStyle style = GUI.skin.box;
+                height = style.CalcHeight(new GUIContent(value), valueRect.width);
 
-            valueRect.height = height;
-            valueRect.width += 21;
-            EditorGUI.LabelField(valueRect, value, EditorStyles.wordWrappedLabel);
+                valueRect.height = height;
+                valueRect.width += 21;
+                valueRect.y = 20 * (i + 2) + 5;
+                EditorGUI.LabelField(valueRect, value, EditorStyles.wordWrappedLabel);
+            }
         }
 
         EditorGUI.EndProperty();

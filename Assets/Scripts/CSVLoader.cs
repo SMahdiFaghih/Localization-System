@@ -6,12 +6,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
-public class CSVLoader : MonoBehaviour
+public class CSVLoader
 {
     private TextAsset CSVFile;
-    private char LineSeparator = '\n';
-    private char Surround = '"';
-    private string[] FieldSeperator = { "\",\"" };
+    private readonly char LineSeparator = '\n';
+    private readonly string[] FieldSeperator = { "\",\"" };
 
     public void LoadCSV()
     {

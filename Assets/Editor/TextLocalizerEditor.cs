@@ -11,7 +11,7 @@ public class TextLocalizerEditWindow : EditorWindow
 
     public static void Open(string key)
     {
-        TextLocalizerEditWindow window = new TextLocalizerEditWindow();
+        TextLocalizerEditWindow window = CreateInstance<TextLocalizerEditWindow>();
         window.titleContent = new GUIContent("Localizer Window");
         window.ShowUtility();
         IsOpen = true;
@@ -121,6 +121,7 @@ public class TextLocalizerSearchWindow : EditorWindow
         Scroll = EditorGUILayout.BeginScrollView(Scroll);
         foreach (KeyValuePair<string ,string> element in dictionary)
         {
+
             if (value == null || element.Key.ToLower().Contains(value.ToLower()) || element.Value.ToLower().Contains(value.ToLower()))
             {
                 EditorGUILayout.BeginHorizontal("box");
