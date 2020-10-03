@@ -3,20 +3,21 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 
-[CustomEditor(typeof(Components)), CanEditMultipleObjects]
+[CustomEditor(typeof(Localize)), CanEditMultipleObjects]
 public class InspectorEditor : Editor
 {
     public SerializedProperty
         targetComponent,
         audioClips,
-        images,
-        text;
+        sprites,
+        localizedString;
+
     void OnEnable()
     {
         targetComponent = serializedObject.FindProperty("Target");
         audioClips = serializedObject.FindProperty("AudioClips");
-        images = serializedObject.FindProperty("Images");
-        text = serializedObject.FindProperty("Text");
+        sprites = serializedObject.FindProperty("Sprites");
+        localizedString = serializedObject.FindProperty("LocalizedString");
     }
 
     public override void OnInspectorGUI()
@@ -26,18 +27,32 @@ public class InspectorEditor : Editor
         EditorGUILayout.PropertyField(targetComponent);
 
         Localize.TargetComponent target = (Localize.TargetComponent)targetComponent.enumValueIndex;
+
+        //EditorGUI.BeginDisabledGroup(target != Localize.TargetComponent.AudioSource);
+        //EditorGUILayout.PropertyField(audioClips, new GUIContent("AudioClips"), true);
+        //EditorGUI.EndDisabledGroup();
+
+        //EditorGUI.BeginDisabledGroup(target != Localize.TargetComponent.Image);
+        //EditorGUILayout.PropertyField(sprites, new GUIContent("Sprites"), true);
+        //EditorGUI.EndDisabledGroup();
+
+        //EditorGUI.BeginDisabledGroup(target != Localize.TargetComponent.Text);
+        //EditorGUILayout.PropertyField(localizedString, new GUIContent("LocalizedString"), true);
+        //EditorGUI.EndDisabledGroup();
+
         switch (target)
         {
             case Localize.TargetComponent.AudioSource:
-                EditorGUILayout.PropertyField(audioClips, new GUIContent("AudioClips"));
+                EditorGUILayout.PropertyField(audioClips, new GUIContent("AudioClips"), true);
                 break;
             case Localize.TargetComponent.Image:
-                EditorGUILayout.PropertyField(images, new GUIContent("Images"));
+                EditorGUILayout.PropertyField(sprites, new GUIContent("Sprites"), true);
                 break;
             case Localize.TargetComponent.Text:
-                EditorGUILayout.PropertyField(text, new GUIContent("Text"));
+                EditorGUILayout.PropertyField(localizedString, new GUIContent("Text"), true);
                 break;
-        }
+        }   
+
         serializedObject.ApplyModifiedProperties();
     }
 }
