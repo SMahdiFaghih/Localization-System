@@ -133,4 +133,9 @@ public class LocalizationManager : MonoBehaviour
         CurrentLanguage = (CurrentLanguage == LocalizedLanguage.Farsi) ? LocalizedLanguage.English : LocalizedLanguage.Farsi;
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
+
+    public static LocalizedLanguage GetCurrentLanguage()
+    {
+        return CurrentLanguage;
+    }
 }
