@@ -53,4 +53,17 @@ public class Localize : MonoBehaviour
                 break;
         }
     }
+
+    void OnValidate()
+    {
+        int size = System.Enum.GetNames(typeof(LocalizationManager.LocalizedLanguage)).Length;
+        if (AudioClips == null || AudioClips.Length != size)
+        {
+            System.Array.Resize(ref AudioClips, size);
+        }
+        if (Sprites == null || Sprites.Length != size)
+        {
+            System.Array.Resize(ref Sprites, size);
+        }
+    }
 }
