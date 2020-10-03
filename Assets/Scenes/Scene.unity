@@ -429,7 +429,9 @@ MonoBehaviour:
   AudioClips:
   - {fileID: 0}
   - {fileID: 0}
-  Sprites: []
+  Sprites:
+  - {fileID: 0}
+  - {fileID: 0}
   LocalizedString:
     key: test
 --- !u!114 &590586578
@@ -734,7 +736,9 @@ MonoBehaviour:
   AudioClips:
   - {fileID: 0}
   - {fileID: 0}
-  Sprites: []
+  Sprites:
+  - {fileID: 0}
+  - {fileID: 0}
   LocalizedString:
     key: change_button
 --- !u!1 &727845432
@@ -915,7 +919,9 @@ MonoBehaviour:
   AudioClips:
   - {fileID: 0}
   - {fileID: 0}
-  Sprites: []
+  Sprites:
+  - {fileID: 0}
+  - {fileID: 0}
   LocalizedString:
     key: password
 --- !u!1 &989034616
@@ -1201,7 +1207,9 @@ MonoBehaviour:
   AudioClips:
   - {fileID: 0}
   - {fileID: 0}
-  Sprites: []
+  Sprites:
+  - {fileID: 0}
+  - {fileID: 0}
   LocalizedString:
     key: username
 --- !u!1 &1310494085
@@ -1256,8 +1264,10 @@ MonoBehaviour:
   Target: 0
   AudioClips:
   - {fileID: 8300000, guid: f452533722e0b494e82de24b01130f7d, type: 3}
-  - {fileID: 8300000, guid: 1d3b4ebe51ce4674089315e79db5cac0, type: 3}
-  Sprites: []
+  - {fileID: 8300000, guid: 4b0f13d9ee48cf644a4a9d9394c82613, type: 3}
+  Sprites:
+  - {fileID: 0}
+  - {fileID: 0}
   LocalizedString:
     key: 
 --- !u!82 &1310494088
@@ -1407,7 +1417,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Target: 1
-  AudioClips: []
+  AudioClips:
+  - {fileID: 0}
+  - {fileID: 0}
   Sprites:
   - {fileID: 21300000, guid: afdaf53f8c9e7c641b36b30506bfbd28, type: 3}
   - {fileID: 21300000, guid: c48e69e623b48254ab04b23fc35c1efd, type: 3}

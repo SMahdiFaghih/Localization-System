@@ -31,6 +31,7 @@ public class Localize : MonoBehaviour
             case TargetComponent.AudioSource:
                 AudioSource AudioSource = GetComponent<AudioSource>();
                 AudioSource.clip = AudioClips[currentLanguageIndex];
+                AudioSource.Play();
                 break;
             case TargetComponent.Image:
                 Image Image = GetComponent<Image>();
