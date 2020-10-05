@@ -46,7 +46,7 @@ public class LocalizedStringDrawer : PropertyDrawer
         position.width = 17;
         position.height = 17;
 
-        Texture searchIcon = (Texture)Resources.Load("search");
+        Texture searchIcon = (Texture)Resources.Load("Localization/search");
         GUIContent searchContent = new GUIContent(searchIcon);
 
         if (GUI.Button(position, searchContent))
@@ -59,7 +59,7 @@ public class LocalizedStringDrawer : PropertyDrawer
 
         position.x += position.width + 2;
 
-        Texture addIcon = (Texture)Resources.Load("add");
+        Texture addIcon = (Texture)Resources.Load("Localization/add");
         GUIContent addContent = new GUIContent(addIcon);
         if (GUI.Button(position, addContent))
         {

@@ -126,7 +126,7 @@ public class TextLocalizerSearchWindow : EditorWindow
             if (value == null || element.Key.ToLower().Contains(value.ToLower()) || element.Value.ToLower().Contains(value.ToLower()))
             {
                 EditorGUILayout.BeginHorizontal("box");
-                Texture deleteIcon = (Texture)Resources.Load("delete");
+                Texture deleteIcon = (Texture)Resources.Load("Localization/delete");
                 GUIContent deleteContent = new GUIContent(deleteIcon);
 
                 if (GUILayout.Button(deleteContent, GUILayout.MaxWidth(20), GUILayout.MaxHeight(20)))

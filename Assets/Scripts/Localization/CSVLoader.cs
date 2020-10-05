@@ -14,7 +14,7 @@ public class CSVLoader
 
     public void LoadCSV()
     {
-        CSVFile = Resources.Load<TextAsset>("Localization");
+        CSVFile = Resources.Load<TextAsset>("Localization/Localization");
     }
 
     public Dictionary<string, string> GetDictionaryValues(string attributeID)
@@ -78,7 +78,7 @@ public class CSVLoader
         }
 
         string appended = string.Join("\",\"", newElements);
-        File.AppendAllText("Assets/Resources/Localization.csv", "\n\"" + appended + "\"");
+        File.AppendAllText("Assets/Resources/Localization/Localization.csv", "\n\"" + appended + "\"");
 
         UnityEditor.AssetDatabase.Refresh();
     }
@@ -113,7 +113,7 @@ public class CSVLoader
             newLines = lines.Where(w => w != lines[index]).ToArray();
 
             string replaced = string.Join(LineSeparator.ToString(), newLines);
-            File.WriteAllText("Assets/Resources/Localization.csv", replaced);
+            File.WriteAllText("Assets/Resources/Localization/Localization.csv", replaced);
         }
     }
 
