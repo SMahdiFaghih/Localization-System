@@ -30,18 +30,6 @@ public class InspectorEditor : Editor
 
         Localize.TargetComponent target = (Localize.TargetComponent)targetComponent.enumValueIndex;
 
-        //EditorGUI.BeginDisabledGroup(target != Localize.TargetComponent.AudioSource);
-        //EditorGUILayout.PropertyField(audioClips, new GUIContent("AudioClips"), true);
-        //EditorGUI.EndDisabledGroup();
-
-        //EditorGUI.BeginDisabledGroup(target != Localize.TargetComponent.Image);
-        //EditorGUILayout.PropertyField(sprites, new GUIContent("Sprites"), true);
-        //EditorGUI.EndDisabledGroup();
-
-        //EditorGUI.BeginDisabledGroup(target != Localize.TargetComponent.Text);
-        //EditorGUILayout.PropertyField(localizedString, new GUIContent("LocalizedString"), true);
-        //EditorGUI.EndDisabledGroup();
-
         switch (target)
         {
             case Localize.TargetComponent.AudioSource:
@@ -56,7 +44,7 @@ public class InspectorEditor : Editor
                 EditorGUILayout.PropertyField(localizedString, new GUIContent("Key"), true);
                 break;
             case Localize.TargetComponent.Font:
-                EditorGUILayout.PropertyField(fonts, new GUIContent("Key"), true);
+                EditorGUILayout.PropertyField(fonts, new GUIContent("Fonts:"), true);
                 ShowArrayProperty(fonts);
                 break;
         }   
