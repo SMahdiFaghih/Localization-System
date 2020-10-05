@@ -72,17 +72,7 @@ public class LocalizationManager : MonoBehaviour
 
     public static void Add(string key, string[] values)
     {
-        for (int i = 0; i < values.Length; i++)
-        {
-            if (values[i] == null)
-            {
-                continue;
-            }
-            if (values[i].Contains("\""))
-            {
-                values[i].Replace('"', '\"');
-            }
-        }
+        CheckValues(ref values);
 
         if (csvLoader == null)
         {
@@ -98,17 +88,7 @@ public class LocalizationManager : MonoBehaviour
 
     public static void Replace(string key, string[] values)
     {
-        for (int i=0;i < values.Length;i++)
-        {
-            if (values[i] == null)
-            {
-                continue;
-            }
-            if (values[i].Contains("\""))
-            {
-                values[i].Replace('"', '\"');
-            }
-        }
+        CheckValues(ref values);
 
         if (csvLoader == null)
         {
@@ -134,6 +114,23 @@ public class LocalizationManager : MonoBehaviour
         csvLoader.LoadCSV();
 
         UpdateDictionaries();
+    }
+
+    private static void CheckValues(ref string[] values)
+    {
+        for (int i = 0; i < values.Length; i++)
+        {
+            if (values[i] == null)
+            {
+                continue;
+            }
+            if (values[i].Contains("\""))
+            {
+                values[i].Replace('"', '\"');
+            }
+            values[i] = values[i].TrimStart();
+            values[i] = values[i].TrimEnd();
+        }
     }
 
     public void ChangeLanguage()
