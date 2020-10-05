@@ -12,7 +12,8 @@ public class Localize : MonoBehaviour
     {
         AudioSource,
         Image,
-        Text
+        Text,
+        Font
     }
 
     public TargetComponent Target;
@@ -21,6 +22,8 @@ public class Localize : MonoBehaviour
     public AudioClip[] AudioClips;
     [HideInInspector]
     public Sprite[] Sprites;
+    [HideInInspector]
+    public Font[] Fonts;
     public LocalizedString LocalizedString;
 
     void Start()
@@ -38,21 +41,28 @@ public class Localize : MonoBehaviour
                 Image.sprite = Sprites[currentLanguageIndex];
                 break;
             case TargetComponent.Text:
-                RTLTextMeshPro RTLText = GetComponent<RTLTextMeshPro>();
-                if (RTLText != null)
+                if (LocalizedString.key != string.Empty)
                 {
-                    RTLText.text = LocalizedString.value;
-                }
-                else
-                {
-                    PersianText persianText = GetComponent<PersianText>();
-                    if (persianText != null)
+                    RTLTextMeshPro RTLText = GetComponent<RTLTextMeshPro>();
+                    if (RTLText != null)
                     {
-                        persianText._rawText = LocalizedString.value;
-                        persianText.enabled = false;
-                        persianText.enabled = true;
+                        RTLText.text = LocalizedString.value;
+                    }
+                    else
+                    {
+                        PersianText persianText = GetComponent<PersianText>();
+                        if (persianText != null)
+                        {
+                            persianText._rawText = LocalizedString.value;
+                            persianText.enabled = false;
+                            persianText.enabled = true;
+                        }
                     }
                 }
+                break;
+            case TargetComponent.Font:
+                Text text = GetComponent<Text>();
+                text.font = Fonts[currentLanguageIndex];
                 break;
         }
     }
@@ -67,6 +77,10 @@ public class Localize : MonoBehaviour
         if (Sprites == null || Sprites.Length != size)
         {
             System.Array.Resize(ref Sprites, size);
+        }
+        if (Fonts == null || Fonts.Length != size)
+        {
+            System.Array.Resize(ref Fonts, size);
         }
     }
 }
