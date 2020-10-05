@@ -47,7 +47,7 @@ public class TextLocalizerEditWindow : EditorWindow
 
         EditorGUILayout.EndVertical();
 
-        if (GUILayout.Button("Add"))
+        if (GUILayout.Button("Add / Edit"))
         {
             if (IsKeyDefined(Key))
             {
@@ -57,6 +57,7 @@ public class TextLocalizerEditWindow : EditorWindow
             {
                 LocalizationManager.Add(Key, Values);
             }
+            Selection.activeGameObject.GetComponent<Localize>().LocalizedString.key = Key;
         }
 
         minSize = new Vector2(460, 500);
@@ -88,7 +89,7 @@ public class TextLocalizerSearchWindow : EditorWindow
 
     public static void Open()
     {
-        TextLocalizerSearchWindow window = new TextLocalizerSearchWindow();
+        TextLocalizerSearchWindow window = CreateInstance<TextLocalizerSearchWindow>();
         window.titleContent = new GUIContent("Localization Search");
 
         Vector2 mouse = GUIUtility.GUIToScreenPoint(Event.current.mousePosition);
@@ -136,6 +137,7 @@ public class TextLocalizerSearchWindow : EditorWindow
                         AssetDatabase.Refresh();
                         LocalizationManager.Init();
                         dictionary = LocalizationManager.GetDictionaryForEditor();
+                        Selection.activeGameObject.GetComponent<Localize>().LocalizedString.key = string.Empty;
                     }
                 }
 

@@ -93,14 +93,14 @@ public class CSVLoader
         {
             string line = lines[i];
 
-            keys[i] = line.Split(FieldSeperator, StringSplitOptions.None)[0];
+            keys[i] = line.Split(FieldSeperator, StringSplitOptions.None)[0].Replace("\"", "");
         }
 
         int index = -1;
 
         for(int i = 0; i < keys.Length; i++)
         {
-            if (keys[i].Contains(key))
+            if (keys[i] == key)
             {
                 index = i;
                 break;
