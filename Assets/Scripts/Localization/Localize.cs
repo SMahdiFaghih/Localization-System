@@ -26,44 +26,49 @@ public class Localize : MonoBehaviour
     public Font[] Fonts;
     public LocalizedString LocalizedString;
 
+    public bool ValueSetBefore = false;
+
     void Start()
     {
-        int currentLanguageIndex = (int) LocalizationManager.GetCurrentLanguage();
-        switch (Target)
+        if (!ValueSetBefore)
         {
-            case TargetComponent.AudioSource:
-                AudioSource AudioSource = GetComponent<AudioSource>();
-                AudioSource.clip = AudioClips[currentLanguageIndex];
-                AudioSource.Play();
-                break;
-            case TargetComponent.Image:
-                Image Image = GetComponent<Image>();
-                Image.sprite = Sprites[currentLanguageIndex];
-                break;
-            case TargetComponent.Text:
-                if (LocalizedString.key != string.Empty)
-                {
-                    RTLTextMeshPro RTLText = GetComponent<RTLTextMeshPro>();
-                    if (RTLText != null)
+            int currentLanguageIndex = (int)LocalizationManager.GetCurrentLanguage();
+            switch (Target)
+            {
+                case TargetComponent.AudioSource:
+                    AudioSource AudioSource = GetComponent<AudioSource>();
+                    AudioSource.clip = AudioClips[currentLanguageIndex];
+                    AudioSource.Play();
+                    break;
+                case TargetComponent.Image:
+                    Image Image = GetComponent<Image>();
+                    Image.sprite = Sprites[currentLanguageIndex];
+                    break;
+                case TargetComponent.Text:
+                    if (LocalizedString.key != string.Empty)
                     {
-                        RTLText.text = LocalizedString.value;
-                    }
-                    else
-                    {
-                        PersianText persianText = GetComponent<PersianText>();
-                        if (persianText != null)
+                        RTLTextMeshPro RTLText = GetComponent<RTLTextMeshPro>();
+                        if (RTLText != null)
                         {
-                            persianText._rawText = LocalizedString.value;
-                            persianText.enabled = false;
-                            persianText.enabled = true;
+                            RTLText.text = LocalizedString.value;
+                        }
+                        else
+                        {
+                            PersianText persianText = GetComponent<PersianText>();
+                            if (persianText != null)
+                            {
+                                persianText._rawText = LocalizedString.value;
+                                persianText.enabled = false;
+                                persianText.enabled = true;
+                            }
                         }
                     }
-                }
-                break;
-            case TargetComponent.Font:
-                Text text = GetComponent<Text>();
-                text.font = Fonts[currentLanguageIndex];
-                break;
+                    break;
+                case TargetComponent.Font:
+                    Text text = GetComponent<Text>();
+                    text.font = Fonts[currentLanguageIndex];
+                    break;
+            }
         }
     }
 
