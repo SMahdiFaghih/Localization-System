@@ -67,7 +67,6 @@ public class CSVLoader
         return dictionary;
     }
 
-#if UNITY_EDITOR
     public void Add(string key, string[] values)
     {
         List<string> newElements = new List<string>();
@@ -122,6 +121,5 @@ public class CSVLoader
         Remove(key);
         Add(key, values);
     }
-#endif
 
 }
