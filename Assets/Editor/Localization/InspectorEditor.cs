@@ -11,7 +11,8 @@ public class InspectorEditor : Editor
         audioClips,
         sprites,
         localizedString,
-        fonts;
+        fonts,
+        fontAssets;
 
     void OnEnable()
     {
@@ -20,6 +21,7 @@ public class InspectorEditor : Editor
         sprites = serializedObject.FindProperty("Sprites");
         localizedString = serializedObject.FindProperty("LocalizedString");
         fonts = serializedObject.FindProperty("Fonts");
+        fontAssets = serializedObject.FindProperty("FontAssets");
     }
 
     public override void OnInspectorGUI()
@@ -40,12 +42,16 @@ public class InspectorEditor : Editor
                 EditorGUILayout.PropertyField(sprites, new GUIContent("Sprites:"), true);
                 ShowArrayProperty(sprites);
                 break;
-            case Localize.TargetComponent.Text:
+            case Localize.TargetComponent.RTLText:
                 EditorGUILayout.PropertyField(localizedString, new GUIContent("Key"), true);
                 break;
             case Localize.TargetComponent.Font:
                 EditorGUILayout.PropertyField(fonts, new GUIContent("Fonts:"), true);
                 ShowArrayProperty(fonts);
+                break;
+            case Localize.TargetComponent.FontAsset:
+                EditorGUILayout.PropertyField(fontAssets, new GUIContent("FontAssets:"), true);
+                ShowArrayProperty(fontAssets);
                 break;
         }   
 

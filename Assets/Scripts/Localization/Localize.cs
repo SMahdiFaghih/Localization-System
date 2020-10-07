@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 using UnityEngine.UI;
+using TMPro;
 using RTLTMPro;
 
 [System.Serializable]
@@ -12,8 +13,9 @@ public class Localize : MonoBehaviour
     {
         AudioSource,
         Image,
-        Text,
-        Font
+        RTLText,
+        Font,
+        FontAsset
     }
 
     public TargetComponent Target;
@@ -24,6 +26,8 @@ public class Localize : MonoBehaviour
     public Sprite[] Sprites;
     [HideInInspector]
     public Font[] Fonts;
+    [HideInInspector]
+    public TMP_FontAsset[] FontAssets;
     public LocalizedString LocalizedString;
 
     public bool ValueSetBefore = false;
@@ -44,13 +48,13 @@ public class Localize : MonoBehaviour
                     Image Image = GetComponent<Image>();
                     Image.sprite = Sprites[currentLanguageIndex];
                     break;
-                case TargetComponent.Text:
+                case TargetComponent.RTLText:
                     if (LocalizedString.key != string.Empty)
                     {
-                        RTLTextMeshPro RTLText = GetComponent<RTLTextMeshPro>();
-                        if (RTLText != null)
+                        RTLTextMeshPro RTLTextMeshPro = GetComponent<RTLTextMeshPro>();
+                        if (RTLTextMeshPro != null)
                         {
-                            RTLText.text = LocalizedString.value;
+                            RTLTextMeshPro.text = LocalizedString.value;
                         }
                         else
                         {
@@ -67,6 +71,10 @@ public class Localize : MonoBehaviour
                 case TargetComponent.Font:
                     Text text = GetComponent<Text>();
                     text.font = Fonts[currentLanguageIndex];
+                    break;
+                case TargetComponent.FontAsset:
+                    RTLTextMeshPro RTLText = GetComponent<RTLTextMeshPro>();
+                    RTLText.font = FontAssets[currentLanguageIndex];
                     break;
             }
         }
@@ -86,6 +94,10 @@ public class Localize : MonoBehaviour
         if (Fonts == null || Fonts.Length != size)
         {
             System.Array.Resize(ref Fonts, size);
+        }
+        if (FontAssets == null || FontAssets.Length != size)
+        {
+            System.Array.Resize(ref FontAssets, size);
         }
     }
 }
