@@ -227,6 +227,7 @@ public class LocalizationManager : MonoBehaviour
     public void ChangeLanguage()
     {
         CurrentLanguage = (CurrentLanguage == LocalizedLanguage.Farsi) ? LocalizedLanguage.English : LocalizedLanguage.Farsi;
+        PlayerPrefs.SetString("Language", CurrentLanguage.ToString());
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
