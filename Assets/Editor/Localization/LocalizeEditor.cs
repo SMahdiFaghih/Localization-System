@@ -4,24 +4,37 @@ using UnityEngine;
 using UnityEditor;
 
 [CustomEditor(typeof(Localize)), CanEditMultipleObjects]
-public class InspectorEditor : Editor
+public class LocalizeEditor : Editor
 {
+    private Localize TargetLocalize;
+
     public SerializedProperty
         targetComponent,
         audioClips,
         sprites,
         localizedString,
         fonts,
-        fontAssets;
+        fontAssets,
+        startCorner,
+        positions,
+        type,
+        fixedFontAsset;
 
     void OnEnable()
     {
+        LocalizationManager.SetInstance();
+        TargetLocalize = (Localize)target;
+
         targetComponent = serializedObject.FindProperty("Target");
         audioClips = serializedObject.FindProperty("AudioClips");
         sprites = serializedObject.FindProperty("Sprites");
         localizedString = serializedObject.FindProperty("LocalizedString");
         fonts = serializedObject.FindProperty("Fonts");
         fontAssets = serializedObject.FindProperty("FontAssets");
+        startCorner = serializedObject.FindProperty("StartCorner");
+        type = serializedObject.FindProperty("Type");
+        positions = serializedObject.FindProperty("Positions");
+        fixedFontAsset = serializedObject.FindProperty("FixedFontAsset");
     }
 
     public override void OnInspectorGUI()
@@ -44,6 +57,8 @@ public class InspectorEditor : Editor
                 break;
             case Localize.TargetComponent.RTLText:
                 EditorGUILayout.PropertyField(localizedString, new GUIContent("Key"), true);
+                EditorGUILayout.PropertyField(type, new GUIContent("Outline"), true);
+                EditorGUILayout.PropertyField(fixedFontAsset, new GUIContent("FixedFontAsset?"), true);
                 break;
             case Localize.TargetComponent.Font:
                 EditorGUILayout.PropertyField(fonts, new GUIContent("Fonts:"), true);
@@ -53,7 +68,22 @@ public class InspectorEditor : Editor
                 EditorGUILayout.PropertyField(fontAssets, new GUIContent("FontAssets:"), true);
                 ShowArrayProperty(fontAssets);
                 break;
-        }   
+            case Localize.TargetComponent.GridLayoutGroup:
+                EditorGUILayout.PropertyField(startCorner, new GUIContent("StartCorner:"), true);
+                break;
+            case Localize.TargetComponent.Position2D:
+                EditorGUILayout.PropertyField(positions, new GUIContent("2D Positions:"), true);
+                ShowArrayProperty(positions);
+                break;
+        }
+
+        foreach (LocalizationManager.LocalizedLanguage language in System.Enum.GetValues(typeof(LocalizationManager.LocalizedLanguage)))
+        {
+            if (GUILayout.Button(language.ToString()))
+            {
+                TargetLocalize.ApplyLocalization((int)language, true);
+            }
+        }
 
         serializedObject.ApplyModifiedProperties();
     }

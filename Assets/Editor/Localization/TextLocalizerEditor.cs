@@ -37,7 +37,7 @@ public class TextLocalizerEditWindow : EditorWindow
 
         EditorGUILayout.BeginVertical();
 
-        for (int i=0;i < Values.Length;i++)
+        for (int i = 0; i < Values.Length; i++)
         {
             EditorGUILayout.LabelField(System.Enum.GetName(typeof(LocalizationManager.LocalizedLanguage), i) + " Value: ", GUILayout.MaxWidth(100));
 
@@ -57,7 +57,7 @@ public class TextLocalizerEditWindow : EditorWindow
             {
                 LocalizationManager.Add(Key, Values);
             }
-            Selection.activeGameObject.GetComponent<Localize>().LocalizedString.key = Key;
+            Selection.activeGameObject.GetComponent<Localize>().SetKey(Key);
         }
 
         minSize = new Vector2(460, 500);
@@ -120,7 +120,7 @@ public class TextLocalizerSearchWindow : EditorWindow
     {
         EditorGUILayout.BeginVertical();
         Scroll = EditorGUILayout.BeginScrollView(Scroll);
-        foreach (KeyValuePair<string ,string> element in dictionary)
+        foreach (KeyValuePair<string, string> element in dictionary)
         {
 
             if (value == null || element.Key.ToLower().Contains(value.ToLower()) || element.Value.ToLower().Contains(value.ToLower()))
@@ -137,7 +137,7 @@ public class TextLocalizerSearchWindow : EditorWindow
                         AssetDatabase.Refresh();
                         LocalizationManager.Init();
                         dictionary = LocalizationManager.GetDictionaryForEditor();
-                        Selection.activeGameObject.GetComponent<Localize>().LocalizedString.key = string.Empty;
+                        Selection.activeGameObject.GetComponent<Localize>().SetKey(string.Empty);
                     }
                 }
 

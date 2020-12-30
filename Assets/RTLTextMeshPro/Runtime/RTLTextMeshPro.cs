@@ -16,7 +16,10 @@ namespace RTLTMPro
         public new string text
 #endif
         {
-            get { return base.text; }
+            get
+            {
+                return originalText;
+            }
             set
             {
                 if (originalText == value)
@@ -93,7 +96,7 @@ namespace RTLTMPro
 
         [SerializeField] protected bool fixTags = true;
 
-        [SerializeField] protected bool forceFix;
+        [SerializeField] public bool forceFix;
 
         protected readonly FastStringBuilder finalText = new FastStringBuilder(RTLSupport.DefaultBufferSize);
 
