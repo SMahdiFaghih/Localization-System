@@ -27,7 +27,7 @@ public class CSVLoader
 
         string[] headers = lines[0].Split(FieldSeperator, StringSplitOptions.None);
 
-        for (int i=0;i < headers.Length;i++)
+        for (int i = 0; i < headers.Length; i++)
         {
             if (headers[i].Contains(attributeID))
             {
@@ -38,13 +38,13 @@ public class CSVLoader
 
         Regex CSVParser = new Regex(",(?=(?:[^\"]*\"[^\"]*\")*(?![^\"]*\"))");
 
-        for (int i=1;i < lines.Length;i++)
+        for (int i = 1; i < lines.Length; i++)
         {
             string line = lines[i].Trim(' ');
 
             string[] fields = CSVParser.Split(line);
 
-            for (int j=0;j < fields.Length;j++)
+            for (int j = 0; j < fields.Length; j++)
             {
                 fields[j] = fields[j].Replace("\"", "");
             }
@@ -67,11 +67,13 @@ public class CSVLoader
         return dictionary;
     }
 
+    #if UNITY_EDITOR
+
     public void Add(string key, string[] values)
     {
         List<string> newElements = new List<string>();
         newElements.Add(key);
-        for (int i=0;i < values.Length;i++)
+        for (int i = 0; i < values.Length; i++)
         {
             newElements.Add(values[i]);
         }
@@ -88,7 +90,7 @@ public class CSVLoader
 
         string[] keys = new string[lines.Length];
 
-        for (int i=0;i < lines.Length;i++)
+        for (int i = 0; i < lines.Length; i++)
         {
             string line = lines[i];
 
@@ -97,7 +99,7 @@ public class CSVLoader
 
         int index = -1;
 
-        for(int i = 0; i < keys.Length; i++)
+        for (int i = 0; i < keys.Length; i++)
         {
             if (keys[i] == key)
             {
@@ -122,4 +124,5 @@ public class CSVLoader
         Add(key, values);
     }
 
+    #endif
 }

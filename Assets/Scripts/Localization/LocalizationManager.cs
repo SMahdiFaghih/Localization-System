@@ -23,6 +23,21 @@ public class LocalizationManager : MonoBehaviour
         English,
         Farsi
     };
+    private void Start()
+    {
+        string language = PlayerPrefs.GetString("Language");
+        switch (language)
+        {
+            case "English":
+                CurrentLanguage = LocalizedLanguage.English;
+                break;
+            case "Farsi":
+            default:
+                CurrentLanguage = LocalizedLanguage.Farsi;
+                break;
+        }
+
+    }
 
     public static void Init()
     {
@@ -70,6 +85,7 @@ public class LocalizationManager : MonoBehaviour
         return value;
     }
 
+#if UNITY_EDITOR
     public static void Add(string key, string[] values)
     {
         CheckValues(ref values);
@@ -115,6 +131,7 @@ public class LocalizationManager : MonoBehaviour
 
         UpdateDictionaries();
     }
+#endif
 
     private static void CheckValues(ref string[] values)
     {

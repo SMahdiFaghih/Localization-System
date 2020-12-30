@@ -11,9 +11,9 @@ public class Localize : MonoBehaviour
 {
     public enum TargetComponent
     {
+        RTLText,
         AudioSource,
         Image,
-        RTLText,
         Font,
         FontAsset
     }
