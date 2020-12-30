@@ -54,7 +54,7 @@ public class LocalizedStringDrawer : PropertyDrawer
             if (!TextLocalizerSearchWindow.IsOpen)
             {
                 TextLocalizerSearchWindow.Open();
-            }  
+            }
         }
 
         position.x += position.width + 2;

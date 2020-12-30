@@ -44,7 +44,7 @@ public class LocalizationManagerEditor : Editor
         EditorGUI.indentLevel += 1;
         for (int i = 0; i < list.arraySize; i++)
         {
-            EditorGUILayout.PropertyField(list.GetArrayElementAtIndex(i), new GUIContent(System.Enum.GetName(typeof(LocalizationManager.TextType), i)));
+            EditorGUILayout.PropertyField(list.GetArrayElementAtIndex(i), new GUIContent(System.Enum.GetName(typeof(LocalizationManager.Outline), i)));
         }
         EditorGUI.indentLevel -= 1;
     }

@@ -17,7 +17,7 @@ public class LocalizeEditor : Editor
         fontAssets,
         startCorner,
         positions,
-        type,
+        outline,
         fixedFontAsset;
 
     void OnEnable()
@@ -32,7 +32,7 @@ public class LocalizeEditor : Editor
         fonts = serializedObject.FindProperty("Fonts");
         fontAssets = serializedObject.FindProperty("FontAssets");
         startCorner = serializedObject.FindProperty("StartCorner");
-        type = serializedObject.FindProperty("Type");
+        outline = serializedObject.FindProperty("Outline");
         positions = serializedObject.FindProperty("Positions");
         fixedFontAsset = serializedObject.FindProperty("FixedFontAsset");
     }
@@ -57,7 +57,7 @@ public class LocalizeEditor : Editor
                 break;
             case Localize.TargetComponent.RTLText:
                 EditorGUILayout.PropertyField(localizedString, new GUIContent("Key"), true);
-                EditorGUILayout.PropertyField(type, new GUIContent("Outline"), true);
+                EditorGUILayout.PropertyField(outline, new GUIContent("Outline"), true);
                 EditorGUILayout.PropertyField(fixedFontAsset, new GUIContent("FixedFontAsset?"), true);
                 break;
             case Localize.TargetComponent.Font:

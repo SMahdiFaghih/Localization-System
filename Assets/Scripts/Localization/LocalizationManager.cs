@@ -40,16 +40,10 @@ public class LocalizationManager : MonoBehaviour
         Farsi
     }
 
-    public enum TextType
+    public enum Outline
     {
-        Normal,
-        GreenButton,
-        BlueButton,
-        YellowButton,
         NoOutline,
-        PurpleShop,
-        GrayButton,
-        Brown
+        Black
     }
 
     public class DescriptionAttributes<T>
@@ -290,7 +284,7 @@ public class LocalizationManager : MonoBehaviour
 
     void OnValidate()
     {
-        int size = System.Enum.GetNames(typeof(TextType)).Length;
+        int size = System.Enum.GetNames(typeof(Outline)).Length;
         if (EnglishMaterialPresets == null || EnglishMaterialPresets.Length != size)
         {
             System.Array.Resize(ref EnglishMaterialPresets, size);

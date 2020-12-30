@@ -41,7 +41,7 @@ public class Localize : MonoBehaviour
     [HideInInspector]
     public Vector2[] Positions;
     [HideInInspector]
-    public LocalizationManager.TextType Type;
+    public LocalizationManager.Outline Outline;
     [HideInInspector]
     public bool FixedFontAsset = false;
 
@@ -145,7 +145,7 @@ public class Localize : MonoBehaviour
         //Set FontAsset and MaterialPreset to show the proper Outline
         if (!FixedFontAsset)
         {
-            LocalizationManager.Instance.SetFontAndMaterial(currenctLanguage, (int)Type, ref RTLTextMeshPro);
+            LocalizationManager.Instance.SetFontAndMaterial(currenctLanguage, (int)Outline, ref RTLTextMeshPro);
         }
 
         //Set Alignment
