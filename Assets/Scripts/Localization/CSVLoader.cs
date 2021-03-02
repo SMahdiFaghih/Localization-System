@@ -1,7 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Text.RegularExpressions;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
@@ -12,44 +10,49 @@ public class CSVLoader
     private readonly char LineSeparator = '\n';
     private readonly string[] FieldSeperator = { "\",\"" };
 
+    private string[] Lines;
+    private string[][] LineFields;
+
     public void LoadCSV()
     {
         CSVFile = Resources.Load<TextAsset>("Localization/Localization");
+        SeparateFields();
     }
 
-    public Dictionary<string, string> GetDictionaryValues(string attributeID)
+    private void SeparateFields()
+    {
+        Lines = CSVFile.text.Split(LineSeparator);
+
+        LineFields = new string[Lines.Length][];
+
+        for (int i = 0; i < Lines.Length; i++)
+        {
+            string line = Lines[i].Trim().Trim('"');
+
+            LineFields[i] = line.Split(FieldSeperator, StringSplitOptions.None);
+        }
+    }
+
+    public Dictionary<string, string> GetDictionaryValues(string languageName)
     {
         Dictionary<string, string> dictionary = new Dictionary<string, string>();
 
-        string[] lines = CSVFile.text.Split(LineSeparator);
-
-        int attributeIndex = -1;
-
-        string[] headers = lines[0].Split(FieldSeperator, StringSplitOptions.None);
-
+        //Find language index in CSV file
+        int languageIndex = -1;
+        string[] headers = LineFields[0];
         for (int i = 0; i < headers.Length; i++)
         {
-            if (headers[i].Contains(attributeID))
+            if (headers[i].Contains(languageName))
             {
-                attributeIndex = i;
+                languageIndex = i;
                 break;
             }
+
         }
 
-        Regex CSVParser = new Regex(",(?=(?:[^\"]*\"[^\"]*\")*(?![^\"]*\"))");
-
-        for (int i = 1; i < lines.Length; i++)
+        foreach (string[] fields in LineFields)
         {
-            string line = lines[i].Trim(' ');
-
-            string[] fields = CSVParser.Split(line);
-
-            for (int j = 0; j < fields.Length; j++)
-            {
-                fields[j] = fields[j].Replace("\"", "");
-            }
-
-            if (fields.Length > attributeIndex)
+            if (fields.Length > languageIndex)
             {
                 var key = fields[0];
 
@@ -58,7 +61,7 @@ public class CSVLoader
                     continue;
                 }
 
-                var value = fields[attributeIndex];
+                var value = fields[languageIndex];
 
                 dictionary.Add(key, value);
             }
@@ -67,8 +70,7 @@ public class CSVLoader
         return dictionary;
     }
 
-    #if UNITY_EDITOR
-
+#if UNITY_EDITOR
     public void Add(string key, string[] values)
     {
         List<string> newElements = new List<string>();
@@ -124,5 +126,5 @@ public class CSVLoader
         Add(key, values);
     }
 
-    #endif
+#endif
 }
