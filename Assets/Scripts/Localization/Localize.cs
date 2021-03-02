@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEditor;
 using UnityEngine.UI;
 using TMPro;
 using RTLTMPro;
@@ -28,25 +27,16 @@ public class Localize : MonoBehaviour
 
     public TargetComponent Target;
 
-    [HideInInspector]
-    public AudioClip[] AudioClips;
-    [HideInInspector]
-    public Sprite[] Sprites;
-    [HideInInspector]
-    public Font[] Fonts;
-    [HideInInspector]
-    public TMP_FontAsset[] FontAssets;
-    [HideInInspector]
-    public GridLayoutStartCorner StartCorner;
-    [HideInInspector]
-    public Vector2[] Positions;
-    [HideInInspector]
-    public LocalizationManager.Outline Outline;
-    [HideInInspector]
-    public bool FixedFontAsset = false;
+    [HideInInspector] public AudioClip[] AudioClips;
+    [HideInInspector] public Sprite[] Sprites;
+    [HideInInspector] public Font[] Fonts;
+    [HideInInspector] public TMP_FontAsset[] FontAssets;
+    [HideInInspector] public GridLayoutStartCorner StartCorner;
+    [HideInInspector] public Vector2[] Positions;
+    [HideInInspector] public LocalizationManager.Outline Outline;
+    [HideInInspector] public bool FixedFontAsset = false;
 
-    [SerializeField]
-    private LocalizedString LocalizedString;
+    [SerializeField] private LocalizedString LocalizedString;
 
     public bool ValueSetBefore = false;
 
@@ -65,17 +55,17 @@ public class Localize : MonoBehaviour
 
         switch (Target)
         {
-            case TargetComponent.AudioSource:
-                AudioSource AudioSource = GetComponent<AudioSource>();
-                AudioSource.clip = AudioClips[currentLanguageIndex];
-                AudioSource.Play();
+            case TargetComponent.RTLText:
+                SetTextValue(currentLanguageIndex, editMode);
                 break;
             case TargetComponent.Image:
                 Image Image = GetComponent<Image>();
                 Image.sprite = Sprites[currentLanguageIndex];
                 break;
-            case TargetComponent.RTLText:
-                SetTextValue(currentLanguageIndex, editMode);
+            case TargetComponent.AudioSource:
+                AudioSource AudioSource = GetComponent<AudioSource>();
+                AudioSource.clip = AudioClips[currentLanguageIndex];
+                AudioSource.Play();
                 break;
             case TargetComponent.Font:
                 Text text = GetComponent<Text>();
@@ -154,7 +144,7 @@ public class Localize : MonoBehaviour
             int alignmentNumber = (int)RTLTextMeshPro.alignment + 3;
             RTLTextMeshPro.alignment = (TextAlignmentOptions)alignmentNumber;
         }
-        else if (currenctLanguage == LocalizationManager.LocalizedLanguage.English && RTLTextMeshPro.alignment.ToString().Contains("Right"))
+        else if (currenctLanguage != LocalizationManager.LocalizedLanguage.Farsi && RTLTextMeshPro.alignment.ToString().Contains("Right"))
         {
             int alignmentNumber = (int)RTLTextMeshPro.alignment - 3;
             RTLTextMeshPro.alignment = (TextAlignmentOptions)alignmentNumber;
@@ -172,7 +162,7 @@ public class Localize : MonoBehaviour
                 int alignmentNumber = (int)gridLayoutGroup.startCorner + 1;
                 gridLayoutGroup.startCorner = (GridLayoutGroup.Corner)alignmentNumber;
             }
-            else if (currenctLanguage == LocalizationManager.LocalizedLanguage.English && gridLayoutGroup.startCorner.ToString().Contains("Right"))
+            else if (currenctLanguage != LocalizationManager.LocalizedLanguage.Farsi && gridLayoutGroup.startCorner.ToString().Contains("Right"))
             {
                 int alignmentNumber = (int)gridLayoutGroup.startCorner - 1;
                 gridLayoutGroup.startCorner = (GridLayoutGroup.Corner)alignmentNumber;
@@ -185,7 +175,7 @@ public class Localize : MonoBehaviour
                 int alignmentNumber = (int)gridLayoutGroup.startCorner - 2;
                 gridLayoutGroup.startCorner = (GridLayoutGroup.Corner)alignmentNumber;
             }
-            else if (currenctLanguage == LocalizationManager.LocalizedLanguage.English && gridLayoutGroup.startCorner.ToString().Contains("Up"))
+            else if (currenctLanguage != LocalizationManager.LocalizedLanguage.Farsi && gridLayoutGroup.startCorner.ToString().Contains("Up"))
             {
                 int alignmentNumber = (int)gridLayoutGroup.startCorner + 2;
                 gridLayoutGroup.startCorner = (GridLayoutGroup.Corner)alignmentNumber;
