@@ -190,10 +190,16 @@ public class Localize : MonoBehaviour
         LocalizedString.key = key.Trim();
         SetTextValue((int)LocalizationManager.GetCurrentLanguage());
 
+        string value = LocalizedString.value;
+
+        if (string.IsNullOrEmpty(value))
+        {
+            return;
+        }
+
         if (replaceStrings.Length != 0)
         {
             List<int> hashIndexes = GetAllCharacterIndexes('#');
-            string value = LocalizedString.value;
             int replacedStringLen = 0;
             for (int i = 0; i < hashIndexes.Count; i++)
             {
@@ -201,15 +207,16 @@ public class Localize : MonoBehaviour
                 value = value.Insert(hashIndexes[i] + replacedStringLen, replaceStrings[i]);
                 replacedStringLen += replaceStrings[i].Length - 1;
             }
-
-            value = value.Replace("@", System.Environment.NewLine);
-
-            RTLTextMeshPro RTLTextMeshPro = GetComponent<RTLTextMeshPro>();
-            RTLTextMeshPro.text = value;
-
-            ValueSetBefore = true;
         }
+
+        value = value.Replace("@", System.Environment.NewLine);
+
+        RTLTextMeshPro RTLTextMeshPro = GetComponent<RTLTextMeshPro>();
+        RTLTextMeshPro.text = value;
+
+        ValueSetBefore = true;
     }
+
 
     private List<int> GetAllCharacterIndexes(char character)
     {
