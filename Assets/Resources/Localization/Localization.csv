@@ -5,3 +5,6 @@
 "cancel_button","Cancel","لغو"
 "test","Test","تست"
 "change_button","Change Language","تغيير زبان"
+"sample_set_key_tutorial","This is how you can set key of your text using code. You need to call SetKey function of its Localize component with your desired key from Localization.csv file as its parameter.","به این ترتیب می توانید کلید متن خود را با استفاده از کد تنظیم کنید شما باید تابع SetKey از کامپوننت Localize آن را با کلید دلخواه خود که در فایل Localization.csv قرار دارد، به عنوان پارامتر آن، فراخوانی کنید."
+"sample_set_key_new_line_tutorial","In order to go to the next line, use At Sign.@Wherever you place this character, the rest of the text will be written in a new line.","برای رفتن به خط بعدی، از At Sign استفاده کنید. @ هر کجا این کاراکتر را قرار دهید، بقیه متن در یک خط جدید نوشته خواهد شد."
+"sample_set_key_replace_strings_tutorial","This text has 2 hashtag chars.@#@and@#@You can replace your desired strings with them by simply giving these desired strings to SetKey function. You can use as much as you want hashtags and replave them.","این متن دارای 2 کاراکتر هشتگ است.@#@و@#@می توانید رشته های مورد نظر خود را با قرار دادن این رشته های دلخواه در تابع SetKey جایگزین آنها کنید. می توانید به اندازه دلخواه هشتگ استفاده کرده و جایگزین آنها کنید."

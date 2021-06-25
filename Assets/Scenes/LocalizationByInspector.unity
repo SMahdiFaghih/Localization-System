@@ -212,7 +212,7 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
-        m_CallState: 1
+        m_CallState: 2
 --- !u!114 &287655907
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -450,8 +450,9 @@ MonoBehaviour:
   Positions:
   - {x: 0, y: 0}
   - {x: 0, y: 0}
-  Outline: 0
+  Outline: 1
   FixedFontAsset: 0
+  IsContainsAtSign: 0
   LocalizedString:
     key: test
   ValueSetBefore: 0
@@ -473,11 +474,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uFEB3\uFEFC\u0645"
-  m_isRightToLeft: 1
-  m_fontAsset: {fileID: 11400000, guid: 5f153c2825e092949bbfc88c342f7685, type: 2}
-  m_sharedMaterial: {fileID: -1908425998639066346, guid: 5f153c2825e092949bbfc88c342f7685,
-    type: 2}
+  m_text: Test
+  m_isRightToLeft: 0
+  m_fontAsset: {fileID: 11400000, guid: 36c42da29c16f2741af97fb94637803e, type: 2}
+  m_sharedMaterial: {fileID: 2100000, guid: 45058dda21fc48e4684df57569b8120b, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -501,7 +501,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 32
+  m_fontSize: 43.2
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -546,7 +546,7 @@ MonoBehaviour:
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
   preserveNumbers: 0
   farsi: 1
-  originalText: "\u0633\u0644\u0627\u0645"
+  originalText: Test
   fixTags: 1
   forceFix: 0
 --- !u!222 &590586579
@@ -613,10 +613,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\u062F\uFB90\uFEE4\uFEEA"
-  m_isRightToLeft: 1
-  m_fontAsset: {fileID: 11400000, guid: 5f153c2825e092949bbfc88c342f7685, type: 2}
-  m_sharedMaterial: {fileID: -1908425998639066346, guid: 5f153c2825e092949bbfc88c342f7685,
+  m_text: Change Language
+  m_isRightToLeft: 0
+  m_fontAsset: {fileID: 11400000, guid: 36c42da29c16f2741af97fb94637803e, type: 2}
+  m_sharedMaterial: {fileID: 3872093785248275867, guid: 36c42da29c16f2741af97fb94637803e,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -686,7 +686,7 @@ MonoBehaviour:
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
   preserveNumbers: 0
   farsi: 1
-  originalText: "\u062F\u06A9\u0645\u0647"
+  originalText: Change Language
   fixTags: 1
   forceFix: 0
 --- !u!222 &634135416
@@ -728,6 +728,7 @@ MonoBehaviour:
   - {x: 0, y: 0}
   Outline: 0
   FixedFontAsset: 0
+  IsContainsAtSign: 0
   LocalizedString:
     key: change_button
   ValueSetBefore: 0
@@ -787,10 +788,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uFEB3\uFEFC\u0645"
-  m_isRightToLeft: 1
-  m_fontAsset: {fileID: 11400000, guid: 5f153c2825e092949bbfc88c342f7685, type: 2}
-  m_sharedMaterial: {fileID: -1908425998639066346, guid: 5f153c2825e092949bbfc88c342f7685,
+  m_text: Password
+  m_isRightToLeft: 0
+  m_fontAsset: {fileID: 11400000, guid: 36c42da29c16f2741af97fb94637803e, type: 2}
+  m_sharedMaterial: {fileID: 3872093785248275867, guid: 36c42da29c16f2741af97fb94637803e,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -815,7 +816,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 32
+  m_fontSize: 42.3
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -860,7 +861,7 @@ MonoBehaviour:
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
   preserveNumbers: 0
   farsi: 1
-  originalText: "\u0633\u0644\u0627\u0645"
+  originalText: Password
   fixTags: 1
   forceFix: 0
 --- !u!222 &727845435
@@ -902,6 +903,7 @@ MonoBehaviour:
   - {x: 0, y: 0}
   Outline: 0
   FixedFontAsset: 0
+  IsContainsAtSign: 0
   LocalizedString:
     key: password
   ValueSetBefore: 0
@@ -1066,10 +1068,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uFEB3\uFEFC\u0645"
-  m_isRightToLeft: 1
-  m_fontAsset: {fileID: 11400000, guid: 5f153c2825e092949bbfc88c342f7685, type: 2}
-  m_sharedMaterial: {fileID: -1908425998639066346, guid: 5f153c2825e092949bbfc88c342f7685,
+  m_text: Username
+  m_isRightToLeft: 0
+  m_fontAsset: {fileID: 11400000, guid: 36c42da29c16f2741af97fb94637803e, type: 2}
+  m_sharedMaterial: {fileID: 3872093785248275867, guid: 36c42da29c16f2741af97fb94637803e,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -1094,7 +1096,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 32
+  m_fontSize: 39.9
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -1139,7 +1141,7 @@ MonoBehaviour:
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
   preserveNumbers: 0
   farsi: 1
-  originalText: "\u0633\u0644\u0627\u0645"
+  originalText: Username
   fixTags: 1
   forceFix: 0
 --- !u!222 &1146028334
@@ -1181,6 +1183,7 @@ MonoBehaviour:
   - {x: 0, y: 0}
   Outline: 0
   FixedFontAsset: 0
+  IsContainsAtSign: 0
   LocalizedString:
     key: username
   ValueSetBefore: 0
@@ -1252,6 +1255,7 @@ MonoBehaviour:
   - {x: 0, y: 0}
   Outline: 0
   FixedFontAsset: 0
+  IsContainsAtSign: 0
   LocalizedString:
     key: 
   ValueSetBefore: 0
@@ -1420,6 +1424,7 @@ MonoBehaviour:
   - {x: 0, y: 0}
   Outline: 0
   FixedFontAsset: 0
+  IsContainsAtSign: 0
   LocalizedString:
     key: 
   ValueSetBefore: 0
@@ -1515,11 +1520,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uFEB3\uFEFC\u0645\r"
-  m_isRightToLeft: 1
-  m_fontAsset: {fileID: 11400000, guid: 5f153c2825e092949bbfc88c342f7685, type: 2}
-  m_sharedMaterial: {fileID: -1908425998639066346, guid: 5f153c2825e092949bbfc88c342f7685,
-    type: 2}
+  m_text: Hello
+  m_isRightToLeft: 0
+  m_fontAsset: {fileID: 11400000, guid: 36c42da29c16f2741af97fb94637803e, type: 2}
+  m_sharedMaterial: {fileID: 2100000, guid: 45058dda21fc48e4684df57569b8120b, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1543,7 +1547,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 32
+  m_fontSize: 43.2
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -1588,9 +1592,9 @@ MonoBehaviour:
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
   preserveNumbers: 0
   farsi: 1
-  originalText: "\u0633\u0644\u0627\u0645\r"
+  originalText: Hello
   fixTags: 1
-  forceFix: 1
+  forceFix: 0
 --- !u!222 &1699700349
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1630,6 +1634,7 @@ MonoBehaviour:
   - {x: 0, y: 0}
   Outline: 1
   FixedFontAsset: 0
+  IsContainsAtSign: 0
   LocalizedString:
     key: hello
   ValueSetBefore: 0
