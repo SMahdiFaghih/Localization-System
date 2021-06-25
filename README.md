@@ -6,7 +6,7 @@ You can use your desired outline for the texts and also add strings to the prede
 ---
 - [Installation](#installation)
 - [Documentation](#documentation)
-	- [How to Start](#how_to_start)
+	- [How to Start](#how-to-start)
 - [Maintainer](#Maintainer)
 ---
 
@@ -26,7 +26,7 @@ In the inspector and for LocalizationManager script, you'll see the empty slots 
 Add Localize script as a component to the Game object that you want to change one of its other components by localization. You can add multiple Localize components for different targets.
 
 Then, from the inspector, choose the target component from the drop down menu in the Localize component.
-The rest of the component view will change according to the target and will allow you to set your desired
+The rest of the component view in editor will change according to the target and will allow you to set your desired settings and files for that target.
 
 ----
 
