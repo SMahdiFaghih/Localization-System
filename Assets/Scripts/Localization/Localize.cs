@@ -35,6 +35,7 @@ public class Localize : MonoBehaviour
     [HideInInspector] public Vector2[] Positions;
     [HideInInspector] public LocalizationManager.Outline Outline;
     [HideInInspector] public bool FixedFontAsset = false;
+    [HideInInspector] public bool IsContainsAtSign = false;
 
     [SerializeField] private LocalizedString LocalizedString;
 
@@ -109,6 +110,10 @@ public class Localize : MonoBehaviour
 
             if (!string.IsNullOrEmpty(value))
             {
+                if (!IsContainsAtSign)
+                {
+                    value = value.Replace("@", System.Environment.NewLine);
+                }
                 RTLTextMeshPro.text = value;
             }
         }
@@ -150,7 +155,6 @@ public class Localize : MonoBehaviour
             RTLTextMeshPro.alignment = (TextAlignmentOptions)alignmentNumber;
         }
     }
-
     private void SetGridLayoutStartCorner(int currentLanguageIndex)
     {
         LocalizationManager.LocalizedLanguage currenctLanguage = (LocalizationManager.LocalizedLanguage)currentLanguageIndex;
@@ -209,14 +213,16 @@ public class Localize : MonoBehaviour
             }
         }
 
-        value = value.Replace("@", System.Environment.NewLine);
+        if (!IsContainsAtSign)
+        {
+            value = value.Replace("@", System.Environment.NewLine);
+        }
 
         RTLTextMeshPro RTLTextMeshPro = GetComponent<RTLTextMeshPro>();
         RTLTextMeshPro.text = value;
 
         ValueSetBefore = true;
     }
-
 
     private List<int> GetAllCharacterIndexes(char character)
     {

@@ -18,7 +18,8 @@ public class LocalizeEditor : Editor
         startCorner,
         positions,
         outline,
-        fixedFontAsset;
+        fixedFontAsset,
+        isContainsAtSign;
 
     void OnEnable()
     {
@@ -35,6 +36,7 @@ public class LocalizeEditor : Editor
         outline = serializedObject.FindProperty("Outline");
         positions = serializedObject.FindProperty("Positions");
         fixedFontAsset = serializedObject.FindProperty("FixedFontAsset");
+        isContainsAtSign = serializedObject.FindProperty("IsContainsAtSign");
     }
 
     public override void OnInspectorGUI()
@@ -59,6 +61,7 @@ public class LocalizeEditor : Editor
                 EditorGUILayout.PropertyField(localizedString, new GUIContent("Key"), true);
                 EditorGUILayout.PropertyField(outline, new GUIContent("Outline"), true);
                 EditorGUILayout.PropertyField(fixedFontAsset, new GUIContent("FixedFontAsset?"), true);
+                EditorGUILayout.PropertyField(isContainsAtSign, new GUIContent("ContainsAtSign? (@)"), true);
                 break;
             case Localize.TargetComponent.Font:
                 EditorGUILayout.PropertyField(fonts, new GUIContent("Fonts:"), true);
