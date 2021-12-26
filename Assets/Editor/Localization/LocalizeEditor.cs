@@ -16,6 +16,8 @@ public class LocalizeEditor : Editor
         fonts,
         fontAssets,
         startCorner,
+        reverseArrangement,
+        changeChildAlignment,
         positions,
         outline,
         fixedFontAsset,
@@ -33,6 +35,8 @@ public class LocalizeEditor : Editor
         fonts = serializedObject.FindProperty("Fonts");
         fontAssets = serializedObject.FindProperty("FontAssets");
         startCorner = serializedObject.FindProperty("StartCorner");
+        reverseArrangement = serializedObject.FindProperty("ReverseArrangement");
+        changeChildAlignment = serializedObject.FindProperty("ChangeChildAlignment");
         outline = serializedObject.FindProperty("Outline");
         positions = serializedObject.FindProperty("Positions");
         fixedFontAsset = serializedObject.FindProperty("FixedFontAsset");
@@ -73,6 +77,10 @@ public class LocalizeEditor : Editor
                 break;
             case Localize.TargetComponent.GridLayoutGroup:
                 EditorGUILayout.PropertyField(startCorner, new GUIContent("StartCorner:"), true);
+                break;
+            case Localize.TargetComponent.HorizontalOrVerticalLayoutGroup:
+                EditorGUILayout.PropertyField(reverseArrangement, new GUIContent("ReverseArrangement:"), true);
+                EditorGUILayout.PropertyField(changeChildAlignment, new GUIContent("Change ChildAlignment:"), true);
                 break;
             case Localize.TargetComponent.Position2D:
                 EditorGUILayout.PropertyField(positions, new GUIContent("2D Positions:"), true);

@@ -22,6 +22,7 @@ public class Localize : MonoBehaviour
         Font,
         FontAsset,
         GridLayoutGroup,
+        HorizontalOrVerticalLayoutGroup,
         Position2D
     }
 
@@ -32,6 +33,8 @@ public class Localize : MonoBehaviour
     [HideInInspector] public Font[] Fonts;
     [HideInInspector] public TMP_FontAsset[] FontAssets;
     [HideInInspector] public GridLayoutStartCorner StartCorner;
+    [HideInInspector] public bool ReverseArrangement = true;
+    [HideInInspector] public bool ChangeChildAlignment = false;
     [HideInInspector] public Vector2[] Positions;
     [HideInInspector] public LocalizationManager.Outline Outline;
     [HideInInspector] public bool FixedFontAsset = false;
@@ -39,7 +42,7 @@ public class Localize : MonoBehaviour
 
     [SerializeField] private LocalizedString LocalizedString;
 
-    public bool ValueSetBefore = false;
+    private bool _valueSetBefore = false;
 
     void Start()
     {
@@ -49,7 +52,7 @@ public class Localize : MonoBehaviour
 
     public void ApplyLocalization(int currentLanguageIndex, bool editMode)
     {
-        if (ValueSetBefore)
+        if (_valueSetBefore && !editMode)
         {
             return;
         }
@@ -78,6 +81,9 @@ public class Localize : MonoBehaviour
                 break;
             case TargetComponent.GridLayoutGroup:
                 SetGridLayoutStartCorner(currentLanguageIndex);
+                break;
+            case TargetComponent.HorizontalOrVerticalLayoutGroup:
+                SetLayoutGroupChildAlignment(currentLanguageIndex);
                 break;
             case TargetComponent.Position2D:
                 gameObject.transform.localPosition = Positions[currentLanguageIndex];
@@ -189,6 +195,35 @@ public class Localize : MonoBehaviour
         gridLayoutGroup.enabled = true;
     }
 
+    private void SetLayoutGroupChildAlignment(int currentLanguageIndex)
+    {
+        LocalizationManager.LocalizedLanguage currenctLanguage = (LocalizationManager.LocalizedLanguage)currentLanguageIndex;
+
+        HorizontalOrVerticalLayoutGroup horizontalOrVerticalLayoutGroup = GetComponent<HorizontalOrVerticalLayoutGroup>();
+        if (currenctLanguage == LocalizationManager.LocalizedLanguage.Farsi && ReverseArrangement)
+        {
+            horizontalOrVerticalLayoutGroup.reverseArrangement = true;
+        }
+        else
+        {
+            horizontalOrVerticalLayoutGroup.reverseArrangement = false;
+        }
+
+        if (ChangeChildAlignment == true)
+        {
+            if (currenctLanguage == LocalizationManager.LocalizedLanguage.Farsi && horizontalOrVerticalLayoutGroup.childAlignment.ToString().Contains("Left"))
+            {
+                int alignmentNumber = (int)horizontalOrVerticalLayoutGroup.childAlignment + 2;
+                horizontalOrVerticalLayoutGroup.childAlignment = (TextAnchor)alignmentNumber;
+            }
+            else if (currenctLanguage != LocalizationManager.LocalizedLanguage.Farsi && horizontalOrVerticalLayoutGroup.childAlignment.ToString().Contains("Right"))
+            {
+                int alignmentNumber = (int)horizontalOrVerticalLayoutGroup.childAlignment - 2;
+                horizontalOrVerticalLayoutGroup.childAlignment = (TextAnchor)alignmentNumber;
+            }
+        }
+    }
+
     public void SetKey(string key, params string[] replaceStrings)
     {
         LocalizedString.key = key.Trim();
@@ -204,6 +239,7 @@ public class Localize : MonoBehaviour
         if (replaceStrings.Length != 0)
         {
             List<int> hashIndexes = GetAllCharacterIndexes('#');
+
             int replacedStringLen = 0;
             for (int i = 0; i < hashIndexes.Count; i++)
             {
@@ -221,7 +257,7 @@ public class Localize : MonoBehaviour
         RTLTextMeshPro RTLTextMeshPro = GetComponent<RTLTextMeshPro>();
         RTLTextMeshPro.text = value;
 
-        ValueSetBefore = true;
+        _valueSetBefore = true;
     }
 
     private List<int> GetAllCharacterIndexes(char character)
