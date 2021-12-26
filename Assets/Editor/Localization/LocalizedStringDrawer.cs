@@ -3,87 +3,91 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 
-[CustomPropertyDrawer(typeof(LocalizedString))]
-public class LocalizedStringDrawer : PropertyDrawer
+namespace Localization
 {
-    bool dropdown;
-    float height;
 
-    public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
+    [CustomPropertyDrawer(typeof(LocalizedString))]
+    public class LocalizedStringDrawer : PropertyDrawer
     {
-        if (dropdown)
+        bool dropdown;
+        float height;
+
+        public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
         {
-            return height + 20 * System.Enum.GetNames(typeof(LocalizationManager.LocalizedLanguage)).Length;
-        }
-
-        return 20;
-    }
-
-    public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
-    {
-        EditorGUI.BeginProperty(position, label, property);
-        position = EditorGUI.PrefixLabel(position, GUIUtility.GetControlID(FocusType.Passive), label);
-        position.width -= 34;
-        position.height = 18;
-
-        Rect valueRect = new Rect(position);
-        valueRect.x += 15;
-        valueRect.y += 20;
-        valueRect.width -= 15;
-
-        Rect foldButtonRectRect = new Rect(position);
-        foldButtonRectRect.width = 15;
-
-        dropdown = EditorGUI.Foldout(foldButtonRectRect, dropdown, "");
-
-        position.x += 15;
-        position.width -= 15;
-
-        SerializedProperty key = property.FindPropertyRelative("key");
-        key.stringValue = EditorGUI.TextField(position, key.stringValue);
-
-        position.x += position.width + 2;
-        position.width = 17;
-        position.height = 17;
-
-        Texture searchIcon = (Texture)Resources.Load("Localization/search");
-        GUIContent searchContent = new GUIContent(searchIcon);
-
-        if (GUI.Button(position, searchContent))
-        {
-            if (!TextLocalizerSearchWindow.IsOpen)
+            if (dropdown)
             {
-                TextLocalizerSearchWindow.Open();
+                return height + 20 * System.Enum.GetNames(typeof(LocalizedLanguage)).Length;
             }
+
+            return 20;
         }
 
-        position.x += position.width + 2;
-
-        Texture addIcon = (Texture)Resources.Load("Localization/add");
-        GUIContent addContent = new GUIContent(addIcon);
-        if (GUI.Button(position, addContent))
+        public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
-            if (!TextLocalizerEditWindow.IsOpen)
+            EditorGUI.BeginProperty(position, label, property);
+            position = EditorGUI.PrefixLabel(position, GUIUtility.GetControlID(FocusType.Passive), label);
+            position.width -= 34;
+            position.height = 18;
+
+            Rect valueRect = new Rect(position);
+            valueRect.x += 15;
+            valueRect.y += 20;
+            valueRect.width -= 15;
+
+            Rect foldButtonRectRect = new Rect(position);
+            foldButtonRectRect.width = 15;
+
+            dropdown = EditorGUI.Foldout(foldButtonRectRect, dropdown, "");
+
+            position.x += 15;
+            position.width -= 15;
+
+            SerializedProperty key = property.FindPropertyRelative("key");
+            key.stringValue = EditorGUI.TextField(position, key.stringValue);
+
+            position.x += position.width + 2;
+            position.width = 17;
+            position.height = 17;
+
+            Texture searchIcon = (Texture)Resources.Load("Localization/search");
+            GUIContent searchContent = new GUIContent(searchIcon);
+
+            if (GUI.Button(position, searchContent))
             {
-                TextLocalizerEditWindow.Open(key.stringValue);
+                if (!TextLocalizerSearchWindow.IsOpen)
+                {
+                    TextLocalizerSearchWindow.Open();
+                }
             }
-        }
 
-        if (dropdown)
-        {
-            for (int i = 0; i < System.Enum.GetNames(typeof(LocalizationManager.LocalizedLanguage)).Length; i++)
+            position.x += position.width + 2;
+
+            Texture addIcon = (Texture)Resources.Load("Localization/add");
+            GUIContent addContent = new GUIContent(addIcon);
+            if (GUI.Button(position, addContent))
             {
-                var value = LocalizationManager.GetLocalizedValue(key.stringValue, (LocalizationManager.LocalizedLanguage)System.Enum.GetValues(typeof(LocalizationManager.LocalizedLanguage)).GetValue(i));
-                GUIStyle style = GUI.skin.box;
-                height = style.CalcHeight(new GUIContent(value), valueRect.width);
-
-                valueRect.height = height;
-                valueRect.width += 21;
-                valueRect.y = 20 * (i + 2) + 5;
-                EditorGUI.LabelField(valueRect, value, EditorStyles.wordWrappedLabel);
+                if (!TextLocalizerEditWindow.IsOpen)
+                {
+                    TextLocalizerEditWindow.Open(key.stringValue);
+                }
             }
-        }
 
-        EditorGUI.EndProperty();
+            if (dropdown)
+            {
+                for (int i = 0; i < System.Enum.GetNames(typeof(LocalizedLanguage)).Length; i++)
+                {
+                    var value = LocalizationManager.GetLocalizedValue(key.stringValue, (LocalizedLanguage)System.Enum.GetValues(typeof(LocalizedLanguage)).GetValue(i));
+                    GUIStyle style = GUI.skin.box;
+                    height = style.CalcHeight(new GUIContent(value), valueRect.width);
+
+                    valueRect.height = height;
+                    valueRect.width += 21;
+                    valueRect.y = 20 * (i + 2) + 5;
+                    EditorGUI.LabelField(valueRect, value, EditorStyles.wordWrappedLabel);
+                }
+            }
+
+            EditorGUI.EndProperty();
+        }
     }
 }

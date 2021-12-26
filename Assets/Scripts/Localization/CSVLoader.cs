@@ -4,127 +4,131 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
-public class CSVLoader
+namespace Localization
 {
-    private TextAsset CSVFile;
-    private readonly char LineSeparator = '\n';
-    private readonly string[] FieldSeperator = { "\",\"" };
-
-    private string[] Lines;
-    private string[][] LineFields;
-
-    public void LoadCSV()
+    public class CSVLoader
     {
-        CSVFile = Resources.Load<TextAsset>("Localization/Localization");
-        SeparateFields();
-    }
+        private TextAsset CSVFile;
+        private readonly char LineSeparator = '\n';
+        private readonly string[] FieldSeperator = { "\",\"" };
 
-    private void SeparateFields()
-    {
-        Lines = CSVFile.text.Split(LineSeparator);
+        private string[] Lines;
+        private string[][] LineFields;
 
-        LineFields = new string[Lines.Length][];
-
-        for (int i = 0; i < Lines.Length; i++)
+        public void LoadCSV()
         {
-            string line = Lines[i].Trim().Trim('"');
-
-            LineFields[i] = line.Split(FieldSeperator, StringSplitOptions.None);
+            CSVFile = Resources.Load<TextAsset>("Localization/Localization");
+            SeparateFields();
         }
-    }
 
-    public Dictionary<string, string> GetDictionaryValues(string languageName)
-    {
-        Dictionary<string, string> dictionary = new Dictionary<string, string>();
-
-        //Find language index in CSV file
-        int languageIndex = -1;
-        string[] headers = LineFields[0];
-        for (int i = 0; i < headers.Length; i++)
+        private void SeparateFields()
         {
-            if (headers[i].Contains(languageName))
+            Lines = CSVFile.text.Split(LineSeparator);
+
+            LineFields = new string[Lines.Length][];
+
+            for (int i = 0; i < Lines.Length; i++)
             {
-                languageIndex = i;
-                break;
+                string line = Lines[i].Trim().Trim('"');
+
+                LineFields[i] = line.Split(FieldSeperator, StringSplitOptions.None);
             }
-
         }
 
-        foreach (string[] fields in LineFields)
+        public Dictionary<string, string> GetDictionaryValues(string languageName)
         {
-            if (fields.Length > languageIndex)
-            {
-                var key = fields[0];
+            Dictionary<string, string> dictionary = new Dictionary<string, string>();
 
-                if (dictionary.ContainsKey(key))
+            //Find language index in CSV file
+            int languageIndex = -1;
+            string[] headers = LineFields[0];
+            for (int i = 0; i < headers.Length; i++)
+            {
+                if (headers[i].Contains(languageName))
                 {
-                    continue;
+                    languageIndex = i;
+                    break;
                 }
 
-                var value = fields[languageIndex];
-
-                dictionary.Add(key, value);
             }
-        }
 
-        return dictionary;
-    }
+            foreach (string[] fields in LineFields)
+            {
+                if (fields.Length > languageIndex)
+                {
+                    var key = fields[0];
+
+                    if (dictionary.ContainsKey(key))
+                    {
+                        continue;
+                    }
+
+                    var value = fields[languageIndex];
+
+                    dictionary.Add(key, value);
+                }
+            }
+
+            return dictionary;
+        }
 
 #if UNITY_EDITOR
-    public void Add(string key, string[] values)
-    {
-        List<string> newElements = new List<string>();
-        newElements.Add(key);
-        for (int i = 0; i < values.Length; i++)
+        public void Add(string key, string[] values)
         {
-            newElements.Add(values[i]);
-        }
-
-        string appended = string.Join("\",\"", newElements);
-        File.AppendAllText("Assets/Resources/Localization/Localization.csv", "\n\"" + appended + "\"");
-
-        UnityEditor.AssetDatabase.Refresh();
-    }
-
-    public void Remove(string key)
-    {
-        string[] lines = CSVFile.text.Split(LineSeparator);
-
-        string[] keys = new string[lines.Length];
-
-        for (int i = 0; i < lines.Length; i++)
-        {
-            string line = lines[i];
-
-            keys[i] = line.Split(FieldSeperator, StringSplitOptions.None)[0].Replace("\"", "");
-        }
-
-        int index = -1;
-
-        for (int i = 0; i < keys.Length; i++)
-        {
-            if (keys[i] == key)
+            List<string> newElements = new List<string>();
+            newElements.Add(key);
+            for (int i = 0; i < values.Length; i++)
             {
-                index = i;
-                break;
+                newElements.Add(values[i]);
+            }
+
+            string appended = string.Join("\",\"", newElements);
+            File.AppendAllText("Assets/Resources/Localization/Localization.csv", "\n\"" + appended + "\"");
+
+            UnityEditor.AssetDatabase.Refresh();
+        }
+
+        public void Remove(string key)
+        {
+            string[] lines = CSVFile.text.Split(LineSeparator);
+
+            string[] keys = new string[lines.Length];
+
+            for (int i = 0; i < lines.Length; i++)
+            {
+                string line = lines[i];
+
+                keys[i] = line.Split(FieldSeperator, StringSplitOptions.None)[0].Replace("\"", "");
+            }
+
+            int index = -1;
+
+            for (int i = 0; i < keys.Length; i++)
+            {
+                if (keys[i] == key)
+                {
+                    index = i;
+                    break;
+                }
+            }
+
+            if (index > -1)
+            {
+                string[] newLines;
+                newLines = lines.Where(w => w != lines[index]).ToArray();
+
+                string replaced = string.Join(LineSeparator.ToString(), newLines);
+                File.WriteAllText("Assets/Resources/Localization/Localization.csv", replaced);
             }
         }
 
-        if (index > -1)
+        public void Edit(string key, string[] values)
         {
-            string[] newLines;
-            newLines = lines.Where(w => w != lines[index]).ToArray();
-
-            string replaced = string.Join(LineSeparator.ToString(), newLines);
-            File.WriteAllText("Assets/Resources/Localization/Localization.csv", replaced);
+            Remove(key);
+            Add(key, values);
         }
-    }
-
-    public void Edit(string key, string[] values)
-    {
-        Remove(key);
-        Add(key, values);
-    }
 
 #endif
+    }
+
 }

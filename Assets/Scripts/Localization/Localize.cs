@@ -5,302 +5,306 @@ using UnityEngine.UI;
 using TMPro;
 using RTLTMPro;
 
-[System.Serializable]
-public class Localize : MonoBehaviour
+namespace Localization
 {
-    public enum GridLayoutStartCorner
+    [System.Serializable]
+    public class Localize : MonoBehaviour
     {
-        LeftRight,
-        UpLow
-    }
-
-    public enum TargetComponent
-    {
-        RTLText,
-        AudioSource,
-        Image,
-        Font,
-        FontAsset,
-        GridLayoutGroup,
-        HorizontalOrVerticalLayoutGroup,
-        Position2D
-    }
-
-    public TargetComponent Target;
-
-    [HideInInspector] public AudioClip[] AudioClips;
-    [HideInInspector] public Sprite[] Sprites;
-    [HideInInspector] public Font[] Fonts;
-    [HideInInspector] public TMP_FontAsset[] FontAssets;
-    [HideInInspector] public GridLayoutStartCorner StartCorner;
-    [HideInInspector] public bool ReverseArrangement = true;
-    [HideInInspector] public bool ChangeChildAlignment = false;
-    [HideInInspector] public Vector2[] Positions;
-    [HideInInspector] public LocalizationManager.Outline Outline;
-    [HideInInspector] public bool FixedFontAsset = false;
-    [HideInInspector] public bool IsContainsAtSign = false;
-
-    [SerializeField] private LocalizedString LocalizedString;
-
-    private bool _valueSetBefore = false;
-
-    void Start()
-    {
-        int currentLanguageIndex = (int)LocalizationManager.GetCurrentLanguage();
-        ApplyLocalization(currentLanguageIndex, false);
-    }
-
-    public void ApplyLocalization(int currentLanguageIndex, bool editMode)
-    {
-        if (_valueSetBefore && !editMode)
+        public enum GridLayoutStartCorner
         {
-            return;
+            LeftRight,
+            UpLow
         }
 
-        switch (Target)
+        public enum TargetComponent
         {
-            case TargetComponent.RTLText:
-                SetTextValue(currentLanguageIndex, editMode);
-                break;
-            case TargetComponent.Image:
-                Image Image = GetComponent<Image>();
-                Image.sprite = Sprites[currentLanguageIndex];
-                break;
-            case TargetComponent.AudioSource:
-                AudioSource AudioSource = GetComponent<AudioSource>();
-                AudioSource.clip = AudioClips[currentLanguageIndex];
-                AudioSource.Play();
-                break;
-            case TargetComponent.Font:
-                Text text = GetComponent<Text>();
-                text.font = Fonts[currentLanguageIndex];
-                break;
-            case TargetComponent.FontAsset:
-                RTLTextMeshPro RTLText = GetComponent<RTLTextMeshPro>();
-                RTLText.font = FontAssets[currentLanguageIndex];
-                break;
-            case TargetComponent.GridLayoutGroup:
-                SetGridLayoutStartCorner(currentLanguageIndex);
-                break;
-            case TargetComponent.HorizontalOrVerticalLayoutGroup:
-                SetLayoutGroupChildAlignment(currentLanguageIndex);
-                break;
-            case TargetComponent.Position2D:
-                gameObject.transform.localPosition = Positions[currentLanguageIndex];
-                break;
+            RTLText,
+            AudioSource,
+            Image,
+            Font,
+            FontAsset,
+            GridLayoutGroup,
+            HorizontalOrVerticalLayoutGroup,
+            Position2D
         }
 
-        enabled = false;
-        enabled = true;
-    }
+        public TargetComponent Target;
 
-    private void SetTextValue(int currentLanguageIndex, bool editMode = false)
-    {
-        RTLTextMeshPro RTLTextMeshPro = GetComponent<RTLTextMeshPro>();
-        if (RTLTextMeshPro == null)
+        [HideInInspector] public AudioClip[] AudioClips;
+        [HideInInspector] public Sprite[] Sprites;
+        [HideInInspector] public Font[] Fonts;
+        [HideInInspector] public TMP_FontAsset[] FontAssets;
+        [HideInInspector] public GridLayoutStartCorner StartCorner;
+        [HideInInspector] public bool ReverseArrangement = true;
+        [HideInInspector] public bool ChangeChildAlignment = false;
+        [HideInInspector] public Vector2[] Positions;
+        [HideInInspector] public Outline Outline;
+        [HideInInspector] public bool FixedFontAsset = false;
+        [HideInInspector] public bool IsContainsAtSign = false;
+
+        [SerializeField] private LocalizedString LocalizedString;
+
+        private bool _valueSetBefore = false;
+
+        void Start()
         {
-            return;
+            int currentLanguageIndex = (int)LocalizationManager.GetCurrentLanguage();
+            ApplyLocalization(currentLanguageIndex, false);
         }
 
-        if (!string.IsNullOrEmpty(LocalizedString.key))
+        public void ApplyLocalization(int languageIndex, bool editMode)
         {
-            string value;
-            if (editMode)
+            if (_valueSetBefore && !editMode)
             {
-                value = LocalizationManager.GetLocalizedValue(LocalizedString.key, (LocalizationManager.LocalizedLanguage)currentLanguageIndex);
+                return;
+            }
+
+            switch (Target)
+            {
+                case TargetComponent.RTLText:
+                    SetTextValue(languageIndex, editMode);
+                    break;
+                case TargetComponent.Image:
+                    Image Image = GetComponent<Image>();
+                    Image.sprite = Sprites[languageIndex];
+                    break;
+                case TargetComponent.AudioSource:
+                    AudioSource AudioSource = GetComponent<AudioSource>();
+                    AudioSource.clip = AudioClips[languageIndex];
+                    AudioSource.Play();
+                    break;
+                case TargetComponent.Font:
+                    Text text = GetComponent<Text>();
+                    text.font = Fonts[languageIndex];
+                    break;
+                case TargetComponent.FontAsset:
+                    RTLTextMeshPro RTLText = GetComponent<RTLTextMeshPro>();
+                    RTLText.font = FontAssets[languageIndex];
+                    break;
+                case TargetComponent.GridLayoutGroup:
+                    SetGridLayoutStartCorner(languageIndex);
+                    break;
+                case TargetComponent.HorizontalOrVerticalLayoutGroup:
+                    SetLayoutGroupChildAlignment(languageIndex);
+                    break;
+                case TargetComponent.Position2D:
+                    gameObject.transform.localPosition = Positions[languageIndex];
+                    break;
+            }
+
+            enabled = false;
+            enabled = true;
+        }
+
+        private void SetTextValue(int lLanguageIndex, bool editMode = false)
+        {
+            RTLTextMeshPro RTLTextMeshPro = GetComponent<RTLTextMeshPro>();
+            if (RTLTextMeshPro == null)
+            {
+                return;
+            }
+
+            LocalizedLanguage currenctLanguage = (LocalizedLanguage)lLanguageIndex;
+
+            if (!string.IsNullOrEmpty(LocalizedString.key))
+            {
+                string value;
+                if (editMode)
+                {
+                    value = LocalizationManager.GetLocalizedValue(LocalizedString.key, currenctLanguage);
+                }
+                else
+                {
+                    value = LocalizedString.value;
+                }
+
+                if (!string.IsNullOrEmpty(value))
+                {
+                    if (!IsContainsAtSign)
+                    {
+                        value = value.Replace("@", System.Environment.NewLine);
+                    }
+                    RTLTextMeshPro.text = value;
+                }
+            }
+
+            SetOtherSettings(RTLTextMeshPro, currenctLanguage);
+
+            //Re-Fix
+            RTLTextMeshPro.UpdateText();
+        }
+
+        private void SetOtherSettings(RTLTextMeshPro RTLTextMeshPro, LocalizedLanguage currenctLanguage)
+        {
+            //Set ForceFix to show number-contained texts properly
+            if (currenctLanguage == LocalizedLanguage.Farsi)
+            {
+                RTLTextMeshPro.forceFix = true;
             }
             else
             {
-                value = LocalizedString.value;
+                RTLTextMeshPro.forceFix = false;
             }
 
-            if (!string.IsNullOrEmpty(value))
+            //Set FontAsset and MaterialPreset to show the proper Outline
+            if (!FixedFontAsset)
             {
-                if (!IsContainsAtSign)
+                LocalizationManager.Instance.SetFontAndMaterial(currenctLanguage, (int)Outline, ref RTLTextMeshPro);
+            }
+
+            //Set Alignment
+            if (currenctLanguage == LocalizedLanguage.Farsi && RTLTextMeshPro.alignment.ToString().Contains("Left"))
+            {
+                int alignmentNumber = (int)RTLTextMeshPro.alignment + 3;
+                RTLTextMeshPro.alignment = (TextAlignmentOptions)alignmentNumber;
+            }
+            else if (currenctLanguage != LocalizedLanguage.Farsi && RTLTextMeshPro.alignment.ToString().Contains("Right"))
+            {
+                int alignmentNumber = (int)RTLTextMeshPro.alignment - 3;
+                RTLTextMeshPro.alignment = (TextAlignmentOptions)alignmentNumber;
+            }
+        }
+        private void SetGridLayoutStartCorner(int currentLanguageIndex)
+        {
+            LocalizedLanguage currenctLanguage = (LocalizedLanguage)currentLanguageIndex;
+            GridLayoutGroup gridLayoutGroup = GetComponent<GridLayoutGroup>();
+            if (StartCorner == GridLayoutStartCorner.LeftRight)
+            {
+                if (currenctLanguage == LocalizedLanguage.Farsi && gridLayoutGroup.startCorner.ToString().Contains("Left"))
                 {
-                    value = value.Replace("@", System.Environment.NewLine);
+                    int alignmentNumber = (int)gridLayoutGroup.startCorner + 1;
+                    gridLayoutGroup.startCorner = (GridLayoutGroup.Corner)alignmentNumber;
                 }
-                RTLTextMeshPro.text = value;
+                else if (currenctLanguage != LocalizedLanguage.Farsi && gridLayoutGroup.startCorner.ToString().Contains("Right"))
+                {
+                    int alignmentNumber = (int)gridLayoutGroup.startCorner - 1;
+                    gridLayoutGroup.startCorner = (GridLayoutGroup.Corner)alignmentNumber;
+                }
             }
-        }
-
-        LocalizationManager.LocalizedLanguage currenctLanguage = (LocalizationManager.LocalizedLanguage)currentLanguageIndex;
-        SetOtherSettings(RTLTextMeshPro, currenctLanguage);
-
-        //Re-Fix
-        RTLTextMeshPro.UpdateText();
-    }
-
-    private void SetOtherSettings(RTLTextMeshPro RTLTextMeshPro, LocalizationManager.LocalizedLanguage currenctLanguage)
-    {
-        //Set ForceFix to show number-contained texts properly
-        if (currenctLanguage == LocalizationManager.LocalizedLanguage.Farsi)
-        {
-            RTLTextMeshPro.forceFix = true;
-        }
-        else
-        {
-            RTLTextMeshPro.forceFix = false;
-        }
-
-        //Set FontAsset and MaterialPreset to show the proper Outline
-        if (!FixedFontAsset)
-        {
-            LocalizationManager.Instance.SetFontAndMaterial(currenctLanguage, (int)Outline, ref RTLTextMeshPro);
-        }
-
-        //Set Alignment
-        if (currenctLanguage == LocalizationManager.LocalizedLanguage.Farsi && RTLTextMeshPro.alignment.ToString().Contains("Left"))
-        {
-            int alignmentNumber = (int)RTLTextMeshPro.alignment + 3;
-            RTLTextMeshPro.alignment = (TextAlignmentOptions)alignmentNumber;
-        }
-        else if (currenctLanguage != LocalizationManager.LocalizedLanguage.Farsi && RTLTextMeshPro.alignment.ToString().Contains("Right"))
-        {
-            int alignmentNumber = (int)RTLTextMeshPro.alignment - 3;
-            RTLTextMeshPro.alignment = (TextAlignmentOptions)alignmentNumber;
-        }
-    }
-    private void SetGridLayoutStartCorner(int currentLanguageIndex)
-    {
-        LocalizationManager.LocalizedLanguage currenctLanguage = (LocalizationManager.LocalizedLanguage)currentLanguageIndex;
-        GridLayoutGroup gridLayoutGroup = GetComponent<GridLayoutGroup>();
-        if (StartCorner == GridLayoutStartCorner.LeftRight)
-        {
-            if (currenctLanguage == LocalizationManager.LocalizedLanguage.Farsi && gridLayoutGroup.startCorner.ToString().Contains("Left"))
+            else if (StartCorner == GridLayoutStartCorner.UpLow)
             {
-                int alignmentNumber = (int)gridLayoutGroup.startCorner + 1;
-                gridLayoutGroup.startCorner = (GridLayoutGroup.Corner)alignmentNumber;
+                if (currenctLanguage == LocalizedLanguage.Farsi && gridLayoutGroup.startCorner.ToString().Contains("Low"))
+                {
+                    int alignmentNumber = (int)gridLayoutGroup.startCorner - 2;
+                    gridLayoutGroup.startCorner = (GridLayoutGroup.Corner)alignmentNumber;
+                }
+                else if (currenctLanguage != LocalizedLanguage.Farsi && gridLayoutGroup.startCorner.ToString().Contains("Up"))
+                {
+                    int alignmentNumber = (int)gridLayoutGroup.startCorner + 2;
+                    gridLayoutGroup.startCorner = (GridLayoutGroup.Corner)alignmentNumber;
+                }
             }
-            else if (currenctLanguage != LocalizationManager.LocalizedLanguage.Farsi && gridLayoutGroup.startCorner.ToString().Contains("Right"))
+            gridLayoutGroup.enabled = false;
+            gridLayoutGroup.enabled = true;
+        }
+
+        private void SetLayoutGroupChildAlignment(int currentLanguageIndex)
+        {
+            LocalizedLanguage currenctLanguage = (LocalizedLanguage)currentLanguageIndex;
+
+            HorizontalOrVerticalLayoutGroup horizontalOrVerticalLayoutGroup = GetComponent<HorizontalOrVerticalLayoutGroup>();
+            if (currenctLanguage == LocalizedLanguage.Farsi && ReverseArrangement)
             {
-                int alignmentNumber = (int)gridLayoutGroup.startCorner - 1;
-                gridLayoutGroup.startCorner = (GridLayoutGroup.Corner)alignmentNumber;
+                horizontalOrVerticalLayoutGroup.reverseArrangement = true;
             }
-        }
-        else if (StartCorner == GridLayoutStartCorner.UpLow)
-        {
-            if (currenctLanguage == LocalizationManager.LocalizedLanguage.Farsi && gridLayoutGroup.startCorner.ToString().Contains("Low"))
+            else
             {
-                int alignmentNumber = (int)gridLayoutGroup.startCorner - 2;
-                gridLayoutGroup.startCorner = (GridLayoutGroup.Corner)alignmentNumber;
+                horizontalOrVerticalLayoutGroup.reverseArrangement = false;
             }
-            else if (currenctLanguage != LocalizationManager.LocalizedLanguage.Farsi && gridLayoutGroup.startCorner.ToString().Contains("Up"))
+
+            if (ChangeChildAlignment == true)
             {
-                int alignmentNumber = (int)gridLayoutGroup.startCorner + 2;
-                gridLayoutGroup.startCorner = (GridLayoutGroup.Corner)alignmentNumber;
+                if (currenctLanguage == LocalizedLanguage.Farsi && horizontalOrVerticalLayoutGroup.childAlignment.ToString().Contains("Left"))
+                {
+                    int alignmentNumber = (int)horizontalOrVerticalLayoutGroup.childAlignment + 2;
+                    horizontalOrVerticalLayoutGroup.childAlignment = (TextAnchor)alignmentNumber;
+                }
+                else if (currenctLanguage != LocalizedLanguage.Farsi && horizontalOrVerticalLayoutGroup.childAlignment.ToString().Contains("Right"))
+                {
+                    int alignmentNumber = (int)horizontalOrVerticalLayoutGroup.childAlignment - 2;
+                    horizontalOrVerticalLayoutGroup.childAlignment = (TextAnchor)alignmentNumber;
+                }
             }
         }
-        gridLayoutGroup.enabled = false;
-        gridLayoutGroup.enabled = true;
-    }
 
-    private void SetLayoutGroupChildAlignment(int currentLanguageIndex)
-    {
-        LocalizationManager.LocalizedLanguage currenctLanguage = (LocalizationManager.LocalizedLanguage)currentLanguageIndex;
+        public void SetKey(string key, params string[] replaceStrings)
+        {
+            LocalizedString.key = key.Trim();
+            SetTextValue((int)LocalizationManager.GetCurrentLanguage());
 
-        HorizontalOrVerticalLayoutGroup horizontalOrVerticalLayoutGroup = GetComponent<HorizontalOrVerticalLayoutGroup>();
-        if (currenctLanguage == LocalizationManager.LocalizedLanguage.Farsi && ReverseArrangement)
-        {
-            horizontalOrVerticalLayoutGroup.reverseArrangement = true;
-        }
-        else
-        {
-            horizontalOrVerticalLayoutGroup.reverseArrangement = false;
-        }
+            string value = LocalizedString.value;
 
-        if (ChangeChildAlignment == true)
-        {
-            if (currenctLanguage == LocalizationManager.LocalizedLanguage.Farsi && horizontalOrVerticalLayoutGroup.childAlignment.ToString().Contains("Left"))
+            if (string.IsNullOrEmpty(value))
             {
-                int alignmentNumber = (int)horizontalOrVerticalLayoutGroup.childAlignment + 2;
-                horizontalOrVerticalLayoutGroup.childAlignment = (TextAnchor)alignmentNumber;
+                return;
             }
-            else if (currenctLanguage != LocalizationManager.LocalizedLanguage.Farsi && horizontalOrVerticalLayoutGroup.childAlignment.ToString().Contains("Right"))
+
+            if (replaceStrings.Length != 0)
             {
-                int alignmentNumber = (int)horizontalOrVerticalLayoutGroup.childAlignment - 2;
-                horizontalOrVerticalLayoutGroup.childAlignment = (TextAnchor)alignmentNumber;
+                List<int> hashIndexes = GetAllCharacterIndexes('#');
+
+                int replacedStringLen = 0;
+                for (int i = 0; i < hashIndexes.Count; i++)
+                {
+                    value = value.Remove(hashIndexes[i] + replacedStringLen, 1);
+                    value = value.Insert(hashIndexes[i] + replacedStringLen, replaceStrings[i]);
+                    replacedStringLen += replaceStrings[i].Length - 1;
+                }
             }
-        }
-    }
 
-    public void SetKey(string key, params string[] replaceStrings)
-    {
-        LocalizedString.key = key.Trim();
-        SetTextValue((int)LocalizationManager.GetCurrentLanguage());
-
-        string value = LocalizedString.value;
-
-        if (string.IsNullOrEmpty(value))
-        {
-            return;
-        }
-
-        if (replaceStrings.Length != 0)
-        {
-            List<int> hashIndexes = GetAllCharacterIndexes('#');
-
-            int replacedStringLen = 0;
-            for (int i = 0; i < hashIndexes.Count; i++)
+            if (!IsContainsAtSign)
             {
-                value = value.Remove(hashIndexes[i] + replacedStringLen, 1);
-                value = value.Insert(hashIndexes[i] + replacedStringLen, replaceStrings[i]);
-                replacedStringLen += replaceStrings[i].Length - 1;
+                value = value.Replace("@", System.Environment.NewLine);
             }
+
+            RTLTextMeshPro RTLTextMeshPro = GetComponent<RTLTextMeshPro>();
+            RTLTextMeshPro.text = value;
+
+            _valueSetBefore = true;
         }
 
-        if (!IsContainsAtSign)
+        private List<int> GetAllCharacterIndexes(char character)
         {
-            value = value.Replace("@", System.Environment.NewLine);
-        }
-
-        RTLTextMeshPro RTLTextMeshPro = GetComponent<RTLTextMeshPro>();
-        RTLTextMeshPro.text = value;
-
-        _valueSetBefore = true;
-    }
-
-    private List<int> GetAllCharacterIndexes(char character)
-    {
-        string value = LocalizedString.value;
-        List<int> allIndexes = new List<int>();
-        for (int i = 0; i < value.Length; i++)
-        {
-            if (value[i] == character)
+            string value = LocalizedString.value;
+            List<int> allIndexes = new List<int>();
+            for (int i = 0; i < value.Length; i++)
             {
-                allIndexes.Add(i);
+                if (value[i] == character)
+                {
+                    allIndexes.Add(i);
+                }
             }
+            return allIndexes;
         }
-        return allIndexes;
-    }
 
-    public LocalizedString GetLocalizedString()
-    {
-        return LocalizedString;
-    }
+        public LocalizedString GetLocalizedString()
+        {
+            return LocalizedString;
+        }
 
-    void OnValidate()
-    {
-        int size = System.Enum.GetNames(typeof(LocalizationManager.LocalizedLanguage)).Length;
-        if (AudioClips == null || AudioClips.Length != size)
+        void OnValidate()
         {
-            System.Array.Resize(ref AudioClips, size);
-        }
-        if (Sprites == null || Sprites.Length != size)
-        {
-            System.Array.Resize(ref Sprites, size);
-        }
-        if (Fonts == null || Fonts.Length != size)
-        {
-            System.Array.Resize(ref Fonts, size);
-        }
-        if (FontAssets == null || FontAssets.Length != size)
-        {
-            System.Array.Resize(ref FontAssets, size);
-        }
-        if (Positions == null || Positions.Length != size)
-        {
-            System.Array.Resize(ref Positions, size);
+            int size = System.Enum.GetNames(typeof(LocalizedLanguage)).Length;
+            if (AudioClips == null || AudioClips.Length != size)
+            {
+                System.Array.Resize(ref AudioClips, size);
+            }
+            if (Sprites == null || Sprites.Length != size)
+            {
+                System.Array.Resize(ref Sprites, size);
+            }
+            if (Fonts == null || Fonts.Length != size)
+            {
+                System.Array.Resize(ref Fonts, size);
+            }
+            if (FontAssets == null || FontAssets.Length != size)
+            {
+                System.Array.Resize(ref FontAssets, size);
+            }
+            if (Positions == null || Positions.Length != size)
+            {
+                System.Array.Resize(ref Positions, size);
+            }
         }
     }
 }
