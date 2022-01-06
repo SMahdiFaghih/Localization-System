@@ -63,7 +63,7 @@ namespace Localization
                     EditorGUILayout.PropertyField(sprites, new GUIContent("Sprites:"), true);
                     ShowArrayProperty(sprites);
                     break;
-                case Localize.TargetComponent.RTLText:
+                case Localize.TargetComponent.RTLTextMeshPro:
                     EditorGUILayout.PropertyField(localizedString, new GUIContent("Key"), true);
                     EditorGUILayout.PropertyField(outline, new GUIContent("Outline"), true);
                     EditorGUILayout.PropertyField(fixedFontAsset, new GUIContent("FixedFontAsset?"), true);

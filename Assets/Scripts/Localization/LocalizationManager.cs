@@ -9,20 +9,6 @@ using RTLTMPro;
 
 namespace Localization
 {
-    public enum LocalizedLanguage
-    {
-        [Description("English")]
-        English,
-        [Description("فارسی")]
-        Farsi
-    }
-
-    public enum Outline
-    {
-        NoOutline,
-        Black
-    }
-
     [System.Serializable]
     public class LocalizationManager : MonoBehaviour
     {

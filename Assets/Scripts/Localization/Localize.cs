@@ -18,7 +18,7 @@ namespace Localization
 
         public enum TargetComponent
         {
-            RTLText,
+            RTLTextMeshPro,
             AudioSource,
             Image,
             Font,
@@ -30,6 +30,7 @@ namespace Localization
 
         public TargetComponent Target;
 
+        [HideInInspector] public LocalizedString LocalizedString;
         [HideInInspector] public AudioClip[] AudioClips;
         [HideInInspector] public Sprite[] Sprites;
         [HideInInspector] public Font[] Fonts;
@@ -41,8 +42,6 @@ namespace Localization
         [HideInInspector] public Outline Outline;
         [HideInInspector] public bool FixedFontAsset = false;
         [HideInInspector] public bool IsContainsAtSign = false;
-
-        [SerializeField] private LocalizedString LocalizedString;
 
         private bool _valueSetBefore = false;
 
@@ -61,7 +60,7 @@ namespace Localization
 
             switch (Target)
             {
-                case TargetComponent.RTLText:
+                case TargetComponent.RTLTextMeshPro:
                     SetTextValue(languageIndex, editMode);
                     break;
                 case TargetComponent.Image:
@@ -96,6 +95,7 @@ namespace Localization
             enabled = true;
         }
 
+        #region RTLTextMeshPro
         private void SetTextValue(int lLanguageIndex, bool editMode = false)
         {
             RTLTextMeshPro RTLTextMeshPro = GetComponent<RTLTextMeshPro>();
@@ -164,68 +164,6 @@ namespace Localization
                 RTLTextMeshPro.alignment = (TextAlignmentOptions)alignmentNumber;
             }
         }
-        private void SetGridLayoutStartCorner(int currentLanguageIndex)
-        {
-            LocalizedLanguage currenctLanguage = (LocalizedLanguage)currentLanguageIndex;
-            GridLayoutGroup gridLayoutGroup = GetComponent<GridLayoutGroup>();
-            if (StartCorner == GridLayoutStartCorner.LeftRight)
-            {
-                if (currenctLanguage == LocalizedLanguage.Farsi && gridLayoutGroup.startCorner.ToString().Contains("Left"))
-                {
-                    int alignmentNumber = (int)gridLayoutGroup.startCorner + 1;
-                    gridLayoutGroup.startCorner = (GridLayoutGroup.Corner)alignmentNumber;
-                }
-                else if (currenctLanguage != LocalizedLanguage.Farsi && gridLayoutGroup.startCorner.ToString().Contains("Right"))
-                {
-                    int alignmentNumber = (int)gridLayoutGroup.startCorner - 1;
-                    gridLayoutGroup.startCorner = (GridLayoutGroup.Corner)alignmentNumber;
-                }
-            }
-            else if (StartCorner == GridLayoutStartCorner.UpLow)
-            {
-                if (currenctLanguage == LocalizedLanguage.Farsi && gridLayoutGroup.startCorner.ToString().Contains("Low"))
-                {
-                    int alignmentNumber = (int)gridLayoutGroup.startCorner - 2;
-                    gridLayoutGroup.startCorner = (GridLayoutGroup.Corner)alignmentNumber;
-                }
-                else if (currenctLanguage != LocalizedLanguage.Farsi && gridLayoutGroup.startCorner.ToString().Contains("Up"))
-                {
-                    int alignmentNumber = (int)gridLayoutGroup.startCorner + 2;
-                    gridLayoutGroup.startCorner = (GridLayoutGroup.Corner)alignmentNumber;
-                }
-            }
-            gridLayoutGroup.enabled = false;
-            gridLayoutGroup.enabled = true;
-        }
-
-        private void SetLayoutGroupChildAlignment(int currentLanguageIndex)
-        {
-            LocalizedLanguage currenctLanguage = (LocalizedLanguage)currentLanguageIndex;
-
-            HorizontalOrVerticalLayoutGroup horizontalOrVerticalLayoutGroup = GetComponent<HorizontalOrVerticalLayoutGroup>();
-            if (currenctLanguage == LocalizedLanguage.Farsi && ReverseArrangement)
-            {
-                horizontalOrVerticalLayoutGroup.reverseArrangement = true;
-            }
-            else
-            {
-                horizontalOrVerticalLayoutGroup.reverseArrangement = false;
-            }
-
-            if (ChangeChildAlignment == true)
-            {
-                if (currenctLanguage == LocalizedLanguage.Farsi && horizontalOrVerticalLayoutGroup.childAlignment.ToString().Contains("Left"))
-                {
-                    int alignmentNumber = (int)horizontalOrVerticalLayoutGroup.childAlignment + 2;
-                    horizontalOrVerticalLayoutGroup.childAlignment = (TextAnchor)alignmentNumber;
-                }
-                else if (currenctLanguage != LocalizedLanguage.Farsi && horizontalOrVerticalLayoutGroup.childAlignment.ToString().Contains("Right"))
-                {
-                    int alignmentNumber = (int)horizontalOrVerticalLayoutGroup.childAlignment - 2;
-                    horizontalOrVerticalLayoutGroup.childAlignment = (TextAnchor)alignmentNumber;
-                }
-            }
-        }
 
         public void SetKey(string key, params string[] replaceStrings)
         {
@@ -277,10 +215,74 @@ namespace Localization
             return allIndexes;
         }
 
-        public LocalizedString GetLocalizedString()
+        #endregion
+
+        #region GridLayoutGroup
+        private void SetGridLayoutStartCorner(int currentLanguageIndex)
         {
-            return LocalizedString;
+            LocalizedLanguage currenctLanguage = (LocalizedLanguage)currentLanguageIndex;
+            GridLayoutGroup gridLayoutGroup = GetComponent<GridLayoutGroup>();
+            if (StartCorner == GridLayoutStartCorner.LeftRight)
+            {
+                if (currenctLanguage == LocalizedLanguage.Farsi && gridLayoutGroup.startCorner.ToString().Contains("Left"))
+                {
+                    int alignmentNumber = (int)gridLayoutGroup.startCorner + 1;
+                    gridLayoutGroup.startCorner = (GridLayoutGroup.Corner)alignmentNumber;
+                }
+                else if (currenctLanguage != LocalizedLanguage.Farsi && gridLayoutGroup.startCorner.ToString().Contains("Right"))
+                {
+                    int alignmentNumber = (int)gridLayoutGroup.startCorner - 1;
+                    gridLayoutGroup.startCorner = (GridLayoutGroup.Corner)alignmentNumber;
+                }
+            }
+            else if (StartCorner == GridLayoutStartCorner.UpLow)
+            {
+                if (currenctLanguage == LocalizedLanguage.Farsi && gridLayoutGroup.startCorner.ToString().Contains("Low"))
+                {
+                    int alignmentNumber = (int)gridLayoutGroup.startCorner - 2;
+                    gridLayoutGroup.startCorner = (GridLayoutGroup.Corner)alignmentNumber;
+                }
+                else if (currenctLanguage != LocalizedLanguage.Farsi && gridLayoutGroup.startCorner.ToString().Contains("Up"))
+                {
+                    int alignmentNumber = (int)gridLayoutGroup.startCorner + 2;
+                    gridLayoutGroup.startCorner = (GridLayoutGroup.Corner)alignmentNumber;
+                }
+            }
+            gridLayoutGroup.enabled = false;
+            gridLayoutGroup.enabled = true;
         }
+        #endregion
+
+        #region HorizontalOrVerticalLayoutGroup
+        private void SetLayoutGroupChildAlignment(int currentLanguageIndex)
+        {
+            LocalizedLanguage currenctLanguage = (LocalizedLanguage)currentLanguageIndex;
+
+            HorizontalOrVerticalLayoutGroup horizontalOrVerticalLayoutGroup = GetComponent<HorizontalOrVerticalLayoutGroup>();
+            if (currenctLanguage == LocalizedLanguage.Farsi && ReverseArrangement)
+            {
+                horizontalOrVerticalLayoutGroup.reverseArrangement = true;
+            }
+            else
+            {
+                horizontalOrVerticalLayoutGroup.reverseArrangement = false;
+            }
+
+            if (ChangeChildAlignment == true)
+            {
+                if (currenctLanguage == LocalizedLanguage.Farsi && horizontalOrVerticalLayoutGroup.childAlignment.ToString().Contains("Left"))
+                {
+                    int alignmentNumber = (int)horizontalOrVerticalLayoutGroup.childAlignment + 2;
+                    horizontalOrVerticalLayoutGroup.childAlignment = (TextAnchor)alignmentNumber;
+                }
+                else if (currenctLanguage != LocalizedLanguage.Farsi && horizontalOrVerticalLayoutGroup.childAlignment.ToString().Contains("Right"))
+                {
+                    int alignmentNumber = (int)horizontalOrVerticalLayoutGroup.childAlignment - 2;
+                    horizontalOrVerticalLayoutGroup.childAlignment = (TextAnchor)alignmentNumber;
+                }
+            }
+        }
+        #endregion
 
         void OnValidate()
         {
