@@ -137,7 +137,7 @@ namespace Localization
                         {
                             LocalizationManager.Remove(element.Key);
                             AssetDatabase.Refresh();
-                            LocalizationManager.Init();
+                            LocalizationManager.Initialize();
                             dictionary = LocalizationManager.GetDictionaryForEditor();
                             Selection.activeGameObject.GetComponent<Localize>().SetKey(string.Empty);
                         }

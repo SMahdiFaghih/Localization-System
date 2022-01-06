@@ -5,7 +5,6 @@ using UnityEditor;
 
 namespace Localization
 {
-
     [CustomPropertyDrawer(typeof(LocalizedString))]
     public class LocalizedStringDrawer : PropertyDrawer
     {

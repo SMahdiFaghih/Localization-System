@@ -23,6 +23,7 @@ namespace Localization
             positions,
             outline,
             fixedFontAsset,
+            fixedFontAssetDetails,          
             isContainsAtSign;
 
         void OnEnable()
@@ -42,6 +43,7 @@ namespace Localization
             outline = serializedObject.FindProperty("Outline");
             positions = serializedObject.FindProperty("Positions");
             fixedFontAsset = serializedObject.FindProperty("FixedFontAsset");
+            fixedFontAssetDetails = serializedObject.FindProperty("FixedFontAssetDetails");
             isContainsAtSign = serializedObject.FindProperty("IsContainsAtSign");
         }
 
@@ -66,8 +68,14 @@ namespace Localization
                 case Localize.TargetComponent.RTLTextMeshPro:
                     EditorGUILayout.PropertyField(localizedString, new GUIContent("Key"), true);
                     EditorGUILayout.PropertyField(outline, new GUIContent("Outline"), true);
-                    EditorGUILayout.PropertyField(fixedFontAsset, new GUIContent("FixedFontAsset?"), true);
-                    EditorGUILayout.PropertyField(isContainsAtSign, new GUIContent("ContainsAtSign? (@)"), true);
+
+                    EditorGUILayout.PropertyField(fixedFontAsset, new GUIContent("Fixed FontAsset?"), true);
+                    if (TargetLocalize.FixedFontAsset)
+                    {
+                        EditorGUILayout.PropertyField(fixedFontAssetDetails, new GUIContent("Fixed FontAsset Details:"), true);
+                    }
+
+                    EditorGUILayout.PropertyField(isContainsAtSign, new GUIContent("Contains AtSign?(@)"), true);
                     break;
                 case Localize.TargetComponent.Font:
                     EditorGUILayout.PropertyField(fonts, new GUIContent("Fonts:"), true);

@@ -43,7 +43,7 @@ RenderSettings:
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
-  serializedVersion: 11
+  serializedVersion: 12
   m_GIWorkflowMode: 1
   m_GISettings:
     serializedVersion: 2
@@ -96,8 +96,9 @@ LightmapSettings:
     m_PVRFilteringAtrousPositionSigmaAO: 1
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
+    m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 1
+  m_LightingSettings: {fileID: 2089686937}
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -117,6 +118,8 @@ NavMeshSettings:
     manualTileSize: 0
     tileSize: 256
     accuratePlacement: 0
+    maxJobWorkers: 0
+    preserveTilesOutsideBounds: 0
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
@@ -173,6 +176,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Navigation:
     m_Mode: 3
+    m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
@@ -203,6 +207,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 401461137}
+        m_TargetAssemblyTypeName: 
         m_MethodName: ChangeLanguage
         m_Mode: 1
         m_Arguments:
@@ -228,6 +233,8 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -278,14 +285,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74622c2b0353bdd4a83766fd8eff318a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  EnglishFontAsset: {fileID: 11400000, guid: 36c42da29c16f2741af97fb94637803e, type: 2}
-  EnglishMaterialPresets:
-  - {fileID: 3872093785248275867, guid: 36c42da29c16f2741af97fb94637803e, type: 2}
-  - {fileID: 2100000, guid: 45058dda21fc48e4684df57569b8120b, type: 2}
-  FarsiFontAsset: {fileID: 11400000, guid: 5f153c2825e092949bbfc88c342f7685, type: 2}
-  FarsiMaterialPresets:
-  - {fileID: -1908425998639066346, guid: 5f153c2825e092949bbfc88c342f7685, type: 2}
-  - {fileID: 2100000, guid: 0ec3cba217e51874486e4477f75c588f, type: 2}
+  EnglishFontAssetDetails:
+    FontAsset: {fileID: 11400000, guid: 36c42da29c16f2741af97fb94637803e, type: 2}
+    MaterialPresets:
+    - {fileID: 3872093785248275867, guid: 36c42da29c16f2741af97fb94637803e, type: 2}
+    - {fileID: 2100000, guid: 45058dda21fc48e4684df57569b8120b, type: 2}
+  FarsiFontAssetDetails:
+    FontAsset: {fileID: 11400000, guid: 5f153c2825e092949bbfc88c342f7685, type: 2}
+    MaterialPresets:
+    - {fileID: -1908425998639066346, guid: 5f153c2825e092949bbfc88c342f7685, type: 2}
+    - {fileID: 2100000, guid: 0ec3cba217e51874486e4477f75c588f, type: 2}
 --- !u!4 &401461138
 Transform:
   m_ObjectHideFlags: 0
@@ -434,6 +443,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Target: 0
+  LocalizedString:
+    key: test
   AudioClips:
   - {fileID: 0}
   - {fileID: 0}
@@ -447,15 +458,19 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   StartCorner: 0
+  ReverseArrangement: 1
+  ChangeChildAlignment: 0
   Positions:
   - {x: 0, y: 0}
   - {x: 0, y: 0}
   Outline: 1
   FixedFontAsset: 0
+  FixedFontAssetDetails:
+    FontAsset: {fileID: 0}
+    MaterialPresets:
+    - {fileID: 0}
+    - {fileID: 0}
   IsContainsAtSign: 0
-  LocalizedString:
-    key: test
-  ValueSetBefore: 0
 --- !u!114 &590586578
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -471,6 +486,8 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -540,7 +557,6 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_Maskable: 1
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
@@ -610,6 +626,8 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -680,7 +698,6 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_Maskable: 1
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
@@ -710,6 +727,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Target: 0
+  LocalizedString:
+    key: change_button
   AudioClips:
   - {fileID: 0}
   - {fileID: 0}
@@ -723,15 +742,19 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   StartCorner: 0
+  ReverseArrangement: 1
+  ChangeChildAlignment: 0
   Positions:
   - {x: 0, y: 0}
   - {x: 0, y: 0}
   Outline: 0
   FixedFontAsset: 0
+  FixedFontAssetDetails:
+    FontAsset: {fileID: 0}
+    MaterialPresets:
+    - {fileID: 0}
+    - {fileID: 0}
   IsContainsAtSign: 0
-  LocalizedString:
-    key: change_button
-  ValueSetBefore: 0
 --- !u!1 &727845432
 GameObject:
   m_ObjectHideFlags: 0
@@ -785,6 +808,8 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -855,7 +880,6 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_Maskable: 1
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
@@ -885,6 +909,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Target: 0
+  LocalizedString:
+    key: password
   AudioClips:
   - {fileID: 0}
   - {fileID: 0}
@@ -898,15 +924,19 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   StartCorner: 0
+  ReverseArrangement: 1
+  ChangeChildAlignment: 0
   Positions:
   - {x: 0, y: 0}
   - {x: 0, y: 0}
   Outline: 0
   FixedFontAsset: 0
+  FixedFontAssetDetails:
+    FontAsset: {fileID: 0}
+    MaterialPresets:
+    - {fileID: 0}
+    - {fileID: 0}
   IsContainsAtSign: 0
-  LocalizedString:
-    key: password
-  ValueSetBefore: 0
 --- !u!1 &989034616
 GameObject:
   m_ObjectHideFlags: 0
@@ -948,6 +978,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
+  m_PresetInfoIsWorld: 0
 --- !u!114 &989034618
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1065,6 +1096,8 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -1135,7 +1168,6 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_Maskable: 1
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
@@ -1165,6 +1197,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Target: 0
+  LocalizedString:
+    key: username
   AudioClips:
   - {fileID: 0}
   - {fileID: 0}
@@ -1178,15 +1212,19 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   StartCorner: 0
+  ReverseArrangement: 1
+  ChangeChildAlignment: 0
   Positions:
   - {x: 0, y: 0}
   - {x: 0, y: 0}
   Outline: 0
   FixedFontAsset: 0
+  FixedFontAssetDetails:
+    FontAsset: {fileID: 0}
+    MaterialPresets:
+    - {fileID: 0}
+    - {fileID: 0}
   IsContainsAtSign: 0
-  LocalizedString:
-    key: username
-  ValueSetBefore: 0
 --- !u!1 &1310494085
 GameObject:
   m_ObjectHideFlags: 0
@@ -1237,6 +1275,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Target: 1
+  LocalizedString:
+    key: 
   AudioClips:
   - {fileID: 8300000, guid: f452533722e0b494e82de24b01130f7d, type: 3}
   - {fileID: 8300000, guid: a0eaff42ccb52c24c8464ea4c8a4ba0f, type: 3}
@@ -1250,15 +1290,19 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   StartCorner: 0
+  ReverseArrangement: 1
+  ChangeChildAlignment: 0
   Positions:
   - {x: 0, y: 0}
   - {x: 0, y: 0}
   Outline: 0
   FixedFontAsset: 0
+  FixedFontAssetDetails:
+    FontAsset: {fileID: 0}
+    MaterialPresets:
+    - {fileID: 0}
+    - {fileID: 0}
   IsContainsAtSign: 0
-  LocalizedString:
-    key: 
-  ValueSetBefore: 0
 --- !u!82 &1310494088
 AudioSource:
   m_ObjectHideFlags: 0
@@ -1406,6 +1450,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Target: 2
+  LocalizedString:
+    key: 
   AudioClips:
   - {fileID: 0}
   - {fileID: 0}
@@ -1419,15 +1465,19 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   StartCorner: 0
+  ReverseArrangement: 1
+  ChangeChildAlignment: 0
   Positions:
   - {x: 0, y: 0}
   - {x: 0, y: 0}
   Outline: 0
   FixedFontAsset: 0
+  FixedFontAssetDetails:
+    FontAsset: {fileID: 0}
+    MaterialPresets:
+    - {fileID: 0}
+    - {fileID: 0}
   IsContainsAtSign: 0
-  LocalizedString:
-    key: 
-  ValueSetBefore: 0
 --- !u!114 &1329654032
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1443,6 +1493,8 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -1517,6 +1569,8 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -1586,7 +1640,6 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_Maskable: 1
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
@@ -1616,6 +1669,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Target: 0
+  LocalizedString:
+    key: hello
   AudioClips:
   - {fileID: 0}
   - {fileID: 0}
@@ -1629,15 +1684,19 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   StartCorner: 0
+  ReverseArrangement: 1
+  ChangeChildAlignment: 0
   Positions:
   - {x: 0, y: 0}
   - {x: 0, y: 0}
   Outline: 1
   FixedFontAsset: 0
+  FixedFontAssetDetails:
+    FontAsset: {fileID: 0}
+    MaterialPresets:
+    - {fileID: 0}
+    - {fileID: 0}
   IsContainsAtSign: 0
-  LocalizedString:
-    key: hello
-  ValueSetBefore: 0
 --- !u!1 &1811331926
 GameObject:
   m_ObjectHideFlags: 0
@@ -1704,3 +1763,64 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!850595691 &2089686937
+LightingSettings:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Settings.lighting
+  serializedVersion: 3
+  m_GIWorkflowMode: 1
+  m_EnableBakedLightmaps: 0
+  m_EnableRealtimeLightmaps: 0
+  m_RealtimeEnvironmentLighting: 1
+  m_BounceScale: 1
+  m_AlbedoBoost: 1
+  m_IndirectOutputScale: 1
+  m_UsingShadowmask: 1
+  m_BakeBackend: 0
+  m_LightmapMaxSize: 1024
+  m_BakeResolution: 40
+  m_Padding: 2
+  m_TextureCompression: 1
+  m_AO: 0
+  m_AOMaxDistance: 1
+  m_CompAOExponent: 1
+  m_CompAOExponentDirect: 0
+  m_ExtractAO: 0
+  m_MixedBakeMode: 2
+  m_LightmapsBakeMode: 1
+  m_FilterMode: 1
+  m_LightmapParameters: {fileID: 15204, guid: 0000000000000000f000000000000000, type: 0}
+  m_ExportTrainingData: 0
+  m_TrainingDataDestination: TrainingData
+  m_RealtimeResolution: 2
+  m_ForceWhiteAlbedo: 0
+  m_ForceUpdates: 0
+  m_FinalGather: 0
+  m_FinalGatherRayCount: 256
+  m_FinalGatherFiltering: 1
+  m_PVRCulling: 1
+  m_PVRSampling: 1
+  m_PVRDirectSampleCount: 32
+  m_PVRSampleCount: 500
+  m_PVREnvironmentSampleCount: 500
+  m_PVREnvironmentReferencePointCount: 2048
+  m_LightProbeSampleCountMultiplier: 4
+  m_PVRBounces: 2
+  m_PVRMinBounces: 2
+  m_PVREnvironmentMIS: 0
+  m_PVRFilteringMode: 2
+  m_PVRDenoiserTypeDirect: 0
+  m_PVRDenoiserTypeIndirect: 0
+  m_PVRDenoiserTypeAO: 0
+  m_PVRFilterTypeDirect: 0
+  m_PVRFilterTypeIndirect: 0
+  m_PVRFilterTypeAO: 0
+  m_PVRFilteringGaussRadiusDirect: 1
+  m_PVRFilteringGaussRadiusIndirect: 5
+  m_PVRFilteringGaussRadiusAO: 2
+  m_PVRFilteringAtrousPositionSigmaDirect: 0.5
+  m_PVRFilteringAtrousPositionSigmaIndirect: 2
+  m_PVRFilteringAtrousPositionSigmaAO: 1

@@ -41,6 +41,7 @@ namespace Localization
         [HideInInspector] public Vector2[] Positions;
         [HideInInspector] public Outline Outline;
         [HideInInspector] public bool FixedFontAsset = false;
+        [HideInInspector] public FontAssetDetails FixedFontAssetDetails;
         [HideInInspector] public bool IsContainsAtSign = false;
 
         private bool _valueSetBefore = false;
@@ -96,7 +97,7 @@ namespace Localization
         }
 
         #region RTLTextMeshPro
-        private void SetTextValue(int lLanguageIndex, bool editMode = false)
+        private void SetTextValue(int languageIndex, bool editMode = false)
         {
             RTLTextMeshPro RTLTextMeshPro = GetComponent<RTLTextMeshPro>();
             if (RTLTextMeshPro == null)
@@ -104,7 +105,7 @@ namespace Localization
                 return;
             }
 
-            LocalizedLanguage currenctLanguage = (LocalizedLanguage)lLanguageIndex;
+            LocalizedLanguage currenctLanguage = (LocalizedLanguage)languageIndex;
 
             if (!string.IsNullOrEmpty(LocalizedString.key))
             {
@@ -147,9 +148,13 @@ namespace Localization
             }
 
             //Set FontAsset and MaterialPreset to show the proper Outline
-            if (!FixedFontAsset)
+            if (FixedFontAsset)
             {
-                LocalizationManager.Instance.SetFontAndMaterial(currenctLanguage, (int)Outline, ref RTLTextMeshPro);
+                SetFontAndMaterial((int)Outline, ref RTLTextMeshPro);
+            }
+            else
+            {
+                SetFontAndMaterial(currenctLanguage, (int)Outline, ref RTLTextMeshPro);
             }
 
             //Set Alignment
@@ -163,6 +168,19 @@ namespace Localization
                 int alignmentNumber = (int)RTLTextMeshPro.alignment - 3;
                 RTLTextMeshPro.alignment = (TextAlignmentOptions)alignmentNumber;
             }
+        }
+
+        public void SetFontAndMaterial(LocalizedLanguage language, int outlineIndex, ref RTLTextMeshPro RTLTextMeshPro)
+        {
+            FontAssetDetails fontAssetDetails = LocalizationManager.Instance.GetFontAssetDetailsByLanguage(language);
+            RTLTextMeshPro.font = fontAssetDetails.FontAsset;
+            RTLTextMeshPro.fontSharedMaterial = fontAssetDetails.MaterialPresets[outlineIndex];
+        }
+
+        public void SetFontAndMaterial(int outlineIndex, ref RTLTextMeshPro RTLTextMeshPro)
+        {
+            RTLTextMeshPro.font = FixedFontAssetDetails.FontAsset;
+            RTLTextMeshPro.fontSharedMaterial = FixedFontAssetDetails.MaterialPresets[outlineIndex];
         }
 
         public void SetKey(string key, params string[] replaceStrings)
@@ -286,26 +304,32 @@ namespace Localization
 
         void OnValidate()
         {
-            int size = System.Enum.GetNames(typeof(LocalizedLanguage)).Length;
-            if (AudioClips == null || AudioClips.Length != size)
+            int languagesCount = System.Enum.GetNames(typeof(LocalizedLanguage)).Length;
+            if (AudioClips == null || AudioClips.Length != languagesCount)
             {
-                System.Array.Resize(ref AudioClips, size);
+                System.Array.Resize(ref AudioClips, languagesCount);
             }
-            if (Sprites == null || Sprites.Length != size)
+            if (Sprites == null || Sprites.Length != languagesCount)
             {
-                System.Array.Resize(ref Sprites, size);
+                System.Array.Resize(ref Sprites, languagesCount);
             }
-            if (Fonts == null || Fonts.Length != size)
+            if (Fonts == null || Fonts.Length != languagesCount)
             {
-                System.Array.Resize(ref Fonts, size);
+                System.Array.Resize(ref Fonts, languagesCount);
             }
-            if (FontAssets == null || FontAssets.Length != size)
+            if (FontAssets == null || FontAssets.Length != languagesCount)
             {
-                System.Array.Resize(ref FontAssets, size);
+                System.Array.Resize(ref FontAssets, languagesCount);
             }
-            if (Positions == null || Positions.Length != size)
+            if (Positions == null || Positions.Length != languagesCount)
             {
-                System.Array.Resize(ref Positions, size);
+                System.Array.Resize(ref Positions, languagesCount);
+            }
+
+            int outilnesCount = System.Enum.GetNames(typeof(Outline)).Length;
+            if (FixedFontAssetDetails.MaterialPresets == null || FixedFontAssetDetails.MaterialPresets.Length != languagesCount)
+            {
+                System.Array.Resize(ref FixedFontAssetDetails.MaterialPresets, outilnesCount);
             }
         }
     }

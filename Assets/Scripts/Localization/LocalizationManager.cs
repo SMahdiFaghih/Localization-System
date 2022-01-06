@@ -3,9 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Linq;
-using System.ComponentModel;
-using TMPro;
-using RTLTMPro;
 
 namespace Localization
 {
@@ -14,45 +11,19 @@ namespace Localization
     {
         public static LocalizationManager Instance;
 
+        public static List<string> LanguageDescriptions;
+        public static bool IsInitialized;
+        public static CSVLoader csvLoader;
+
         private static Dictionary<string, string> LocalizedFarsiTexts;
         private static Dictionary<string, string> LocalizedEnglishTexts;
 
         private static LocalizedLanguage CurrentLanguage;
 
-        public static List<string> LanguageDescriptions;
-
-        public static bool IsInit;
-
-        public static CSVLoader csvLoader;
-
         [Header("English")]
-        public TMP_FontAsset EnglishFontAsset;
-        [HideInInspector]
-        public Material[] EnglishMaterialPresets;
+        [HideInInspector] public FontAssetDetails EnglishFontAssetDetails;
         [Header("Farsi")]
-        public TMP_FontAsset FarsiFontAsset;
-        [HideInInspector]
-        public Material[] FarsiMaterialPresets;
-
-        public class DescriptionAttributes<T>
-        {
-            protected List<DescriptionAttribute> Attributes = new List<DescriptionAttribute>();
-            public List<string> Descriptions { get; set; }
-
-            public DescriptionAttributes()
-            {
-                RetrieveAttributes();
-                Descriptions = Attributes.Select(x => x.Description).ToList();
-            }
-
-            private void RetrieveAttributes()
-            {
-                foreach (var attribute in typeof(T).GetMembers().SelectMany(member => member.GetCustomAttributes(typeof(DescriptionAttribute), true).Cast<DescriptionAttribute>()))
-                {
-                    Attributes.Add(attribute);
-                }
-            }
-        }
+        [HideInInspector] public FontAssetDetails FarsiFontAssetDetails;
 
         private void Awake()
         {
@@ -79,24 +50,23 @@ namespace Localization
                     CurrentLanguage = LocalizedLanguage.Farsi;
                     break;
             }
-
         }
 
-        public static void Init()
+        public static void Initialize()
         {
             csvLoader = new CSVLoader();
             csvLoader.LoadCSV();
 
             UpdateDictionaries();
 
-            IsInit = true;
+            IsInitialized = true;
         }
 
         public static Dictionary<string, string> GetDictionaryForEditor()
         {
-            if (!IsInit)
+            if (!IsInitialized)
             {
-                Init();
+                Initialize();
             }
 
             return LocalizedEnglishTexts;
@@ -108,11 +78,16 @@ namespace Localization
             LocalizedEnglishTexts = csvLoader.GetDictionaryValues("english");
         }
 
+        public static LocalizedLanguage GetCurrentLanguage()
+        {
+            return CurrentLanguage;
+        }
+
         public static string GetLocalizedValue(string key, LocalizedLanguage language)
         {
-            if (!IsInit)
+            if (!IsInitialized)
             {
-                Init();
+                Initialize();
             }
 
             string value = "";
@@ -133,6 +108,77 @@ namespace Localization
             return GetLocalizedValue(key, CurrentLanguage);
         }
 
+        public FontAssetDetails GetFontAssetDetailsByLanguage(LocalizedLanguage language)
+        {
+            switch (language)
+            {
+                case LocalizedLanguage.English:
+                    return EnglishFontAssetDetails;
+                case LocalizedLanguage.Farsi:
+                    return FarsiFontAssetDetails;
+                default:
+                    return null;
+            }
+        }
+
+        public static void SetInstance()
+        {
+            /*if (Instance == null)
+            {
+                Instance = GameObject.FindObjectOfType<LocalizationManager>();
+            }
+
+            RTLTextMeshPro[] rtl = Resources.FindObjectsOfTypeAll<RTLTextMeshPro>();
+            Color32 color = new Color32(251, 246, 221, 255);
+            foreach (RTLTextMeshPro rTLTextMeshPro in rtl)
+            {
+                if (rTLTextMeshPro.color.r == 1 && rTLTextMeshPro.color.g == 1 && rTLTextMeshPro.color.b == 1)
+                {
+                    rTLTextMeshPro.color = color;
+                }
+                //rTLTextMeshPro.alignment = TextAlignmentOptions.Midline;
+                //rTLTextMeshPro.font = Instance.FarsiFontAsset;
+                rTLTextMeshPro.lineSpacing = 30;
+                rTLTextMeshPro.raycastTarget = false;
+                /* Localize localize = rTLTextMeshPro.gameObject.GetComponent<Localize>();
+                if (localize != null)
+                {
+                    localize.ApplyLocalization(1, true);
+                }
+                else
+                {
+                    rTLTextMeshPro.fontSharedMaterial = Instance.FarsiMaterialPresets[4];
+                }
+            }*/
+        }
+
+        public void ChangeLanguage(string language)
+        {
+            if (language == CurrentLanguage.ToString())
+            {
+                return;
+            }
+            PlayerPrefs.SetString("Language", language);
+            switch (language)
+            {
+                case "Farsi":
+                    CurrentLanguage = LocalizedLanguage.Farsi;
+                    break;
+                case "English":
+                    CurrentLanguage = LocalizedLanguage.English;
+                    break;
+            }
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        }
+
+        public void ChangeLanguage()
+        {
+            CurrentLanguage = (CurrentLanguage == LocalizedLanguage.Farsi) ? LocalizedLanguage.English : LocalizedLanguage.Farsi;
+            PlayerPrefs.SetString("Language", CurrentLanguage.ToString());
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        }
+
+        #region Editor
 #if UNITY_EDITOR
         public static void Add(string key, string[] values)
         {
@@ -179,7 +225,6 @@ namespace Localization
 
             UpdateDictionaries();
         }
-#endif
 
         private static void CheckValues(ref string[] values)
         {
@@ -197,95 +242,19 @@ namespace Localization
                 values[i] = values[i].TrimEnd();
             }
         }
-
-        public void ChangeLanguage(string language)
-        {
-            if (language == CurrentLanguage.ToString())
-            {
-                return;
-            }
-            PlayerPrefs.SetString("Language", language);
-            switch (language)
-            {
-                case "Farsi":
-                    CurrentLanguage = LocalizedLanguage.Farsi;
-                    break;
-                case "English":
-                    CurrentLanguage = LocalizedLanguage.English;
-                    break;
-            }
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-        }
-
-        public void ChangeLanguage()
-        {
-            CurrentLanguage = (CurrentLanguage == LocalizedLanguage.Farsi) ? LocalizedLanguage.English : LocalizedLanguage.Farsi;
-            PlayerPrefs.SetString("Language", CurrentLanguage.ToString());
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-        }
-
-        public void SetFontAndMaterial(LocalizedLanguage language, int textTypeIndex, ref RTLTextMeshPro RTLTextMeshPro)
-        {
-            switch (language)
-            {
-                case LocalizedLanguage.English:
-                    RTLTextMeshPro.font = EnglishFontAsset;
-                    RTLTextMeshPro.fontSharedMaterial = EnglishMaterialPresets[textTypeIndex];
-                    break;
-                case LocalizedLanguage.Farsi:
-                default:
-                    RTLTextMeshPro.font = FarsiFontAsset;
-                    RTLTextMeshPro.fontSharedMaterial = FarsiMaterialPresets[textTypeIndex];
-                    break;
-            }
-        }
-
-        public static LocalizedLanguage GetCurrentLanguage()
-        {
-            return CurrentLanguage;
-        }
-
-        public static void SetInstance()
-        {
-            /*if (Instance == null)
-            {
-                Instance = GameObject.FindObjectOfType<LocalizationManager>();
-            }
-
-            RTLTextMeshPro[] rtl = Resources.FindObjectsOfTypeAll<RTLTextMeshPro>();
-            Color32 color = new Color32(251, 246, 221, 255);
-            foreach (RTLTextMeshPro rTLTextMeshPro in rtl)
-            {
-                if (rTLTextMeshPro.color.r == 1 && rTLTextMeshPro.color.g == 1 && rTLTextMeshPro.color.b == 1)
-                {
-                    rTLTextMeshPro.color = color;
-                }
-                //rTLTextMeshPro.alignment = TextAlignmentOptions.Midline;
-                //rTLTextMeshPro.font = Instance.FarsiFontAsset;
-                rTLTextMeshPro.lineSpacing = 30;
-                rTLTextMeshPro.raycastTarget = false;
-                /* Localize localize = rTLTextMeshPro.gameObject.GetComponent<Localize>();
-                if (localize != null)
-                {
-                    localize.ApplyLocalization(1, true);
-                }
-                else
-                {
-                    rTLTextMeshPro.fontSharedMaterial = Instance.FarsiMaterialPresets[4];
-                }
-            }*/
-        }
+#endif
+        #endregion
 
         void OnValidate()
         {
             int size = System.Enum.GetNames(typeof(Outline)).Length;
-            if (EnglishMaterialPresets == null || EnglishMaterialPresets.Length != size)
+            if (EnglishFontAssetDetails.MaterialPresets == null || EnglishFontAssetDetails.MaterialPresets.Length != size)
             {
-                System.Array.Resize(ref EnglishMaterialPresets, size);
+                System.Array.Resize(ref EnglishFontAssetDetails.MaterialPresets, size);
             }
-            if (FarsiMaterialPresets == null || FarsiMaterialPresets.Length != size)
+            if (FarsiFontAssetDetails.MaterialPresets == null || FarsiFontAssetDetails.MaterialPresets.Length != size)
             {
-                System.Array.Resize(ref FarsiMaterialPresets, size);
+                System.Array.Resize(ref FarsiFontAssetDetails.MaterialPresets, size);
             }
         }
     }
