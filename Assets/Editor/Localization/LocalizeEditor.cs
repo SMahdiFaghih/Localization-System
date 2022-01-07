@@ -58,11 +58,11 @@ namespace Localization
             switch (target)
             {
                 case Localize.TargetComponent.AudioSource:
-                    EditorGUILayout.PropertyField(audioClips, new GUIContent("AudioClips:"), true);
+                    EditorGUILayout.PropertyField(audioClips, new GUIContent("AudioClips:"), false);
                     ShowArrayProperty(audioClips);
                     break;
                 case Localize.TargetComponent.Image:
-                    EditorGUILayout.PropertyField(sprites, new GUIContent("Sprites:"), true);
+                    EditorGUILayout.PropertyField(sprites, new GUIContent("Sprites:"), false);
                     ShowArrayProperty(sprites);
                     break;
                 case Localize.TargetComponent.RTLTextMeshPro:
@@ -78,22 +78,22 @@ namespace Localization
                     EditorGUILayout.PropertyField(isContainsAtSign, new GUIContent("Contains AtSign?(@)"), true);
                     break;
                 case Localize.TargetComponent.Font:
-                    EditorGUILayout.PropertyField(fonts, new GUIContent("Fonts:"), true);
+                    EditorGUILayout.PropertyField(fonts, new GUIContent("Fonts:"), false);
                     ShowArrayProperty(fonts);
                     break;
                 case Localize.TargetComponent.FontAsset:
-                    EditorGUILayout.PropertyField(fontAssets, new GUIContent("FontAssets:"), true);
+                    EditorGUILayout.PropertyField(fontAssets, new GUIContent("FontAssets:"), false);
                     ShowArrayProperty(fontAssets);
                     break;
                 case Localize.TargetComponent.GridLayoutGroup:
-                    EditorGUILayout.PropertyField(startCorner, new GUIContent("StartCorner:"), true);
+                    EditorGUILayout.PropertyField(startCorner, new GUIContent("StartCorner:"), false);
                     break;
                 case Localize.TargetComponent.HorizontalOrVerticalLayoutGroup:
                     EditorGUILayout.PropertyField(reverseArrangement, new GUIContent("ReverseArrangement:"), true);
                     EditorGUILayout.PropertyField(changeChildAlignment, new GUIContent("Change ChildAlignment:"), true);
                     break;
                 case Localize.TargetComponent.Position2D:
-                    EditorGUILayout.PropertyField(positions, new GUIContent("2D Positions:"), true);
+                    EditorGUILayout.PropertyField(positions, new GUIContent("2D Positions:"), false);
                     ShowArrayProperty(positions);
                     break;
             }
