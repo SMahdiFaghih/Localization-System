@@ -327,7 +327,7 @@ namespace Localization
             }
 
             int outilnesCount = System.Enum.GetNames(typeof(Outline)).Length;
-            if (FixedFontAsset && FixedFontAssetDetails.MaterialPresets == null || FixedFontAssetDetails.MaterialPresets.Length != languagesCount)
+            if (FixedFontAsset && FixedFontAssetDetails != null && (FixedFontAssetDetails.MaterialPresets == null || FixedFontAssetDetails.MaterialPresets.Length != languagesCount))
             {
                 System.Array.Resize(ref FixedFontAssetDetails.MaterialPresets, outilnesCount);
             }
