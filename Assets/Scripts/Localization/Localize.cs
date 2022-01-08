@@ -21,8 +21,6 @@ namespace Localization
             RTLTextMeshPro,
             AudioSource,
             Image,
-            Font,
-            FontAsset,
             GridLayoutGroup,
             HorizontalOrVerticalLayoutGroup,
             Position2D
@@ -33,8 +31,6 @@ namespace Localization
         [HideInInspector] public LocalizedString LocalizedString;
         [HideInInspector] public AudioClip[] AudioClips;
         [HideInInspector] public Sprite[] Sprites;
-        [HideInInspector] public Font[] Fonts;
-        [HideInInspector] public TMP_FontAsset[] FontAssets;
         [HideInInspector] public GridLayoutStartCorner StartCorner;
         [HideInInspector] public bool ReverseArrangement = true;
         [HideInInspector] public bool ChangeChildAlignment = false;
@@ -72,14 +68,6 @@ namespace Localization
                     AudioSource AudioSource = GetComponent<AudioSource>();
                     AudioSource.clip = AudioClips[languageIndex];
                     AudioSource.Play();
-                    break;
-                case TargetComponent.Font:
-                    Text text = GetComponent<Text>();
-                    text.font = Fonts[languageIndex];
-                    break;
-                case TargetComponent.FontAsset:
-                    RTLTextMeshPro RTLText = GetComponent<RTLTextMeshPro>();
-                    RTLText.font = FontAssets[languageIndex];
                     break;
                 case TargetComponent.GridLayoutGroup:
                     SetGridLayoutStartCorner(languageIndex);
@@ -312,14 +300,6 @@ namespace Localization
             if (Sprites == null || Sprites.Length != languagesCount)
             {
                 System.Array.Resize(ref Sprites, languagesCount);
-            }
-            if (Fonts == null || Fonts.Length != languagesCount)
-            {
-                System.Array.Resize(ref Fonts, languagesCount);
-            }
-            if (FontAssets == null || FontAssets.Length != languagesCount)
-            {
-                System.Array.Resize(ref FontAssets, languagesCount);
             }
             if (Positions == null || Positions.Length != languagesCount)
             {

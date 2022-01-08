@@ -15,8 +15,6 @@ namespace Localization
             audioClips,
             sprites,
             localizedString,
-            fonts,
-            fontAssets,
             startCorner,
             reverseArrangement,
             changeChildAlignment,
@@ -35,8 +33,6 @@ namespace Localization
             audioClips = serializedObject.FindProperty("AudioClips");
             sprites = serializedObject.FindProperty("Sprites");
             localizedString = serializedObject.FindProperty("LocalizedString");
-            fonts = serializedObject.FindProperty("Fonts");
-            fontAssets = serializedObject.FindProperty("FontAssets");
             startCorner = serializedObject.FindProperty("StartCorner");
             reverseArrangement = serializedObject.FindProperty("ReverseArrangement");
             changeChildAlignment = serializedObject.FindProperty("ChangeChildAlignment");
@@ -76,14 +72,6 @@ namespace Localization
                     }
 
                     EditorGUILayout.PropertyField(isContainsAtSign, new GUIContent("Contains AtSign?(@)"), true);
-                    break;
-                case Localize.TargetComponent.Font:
-                    EditorGUILayout.PropertyField(fonts, new GUIContent("Fonts:"), false);
-                    ShowArrayProperty(fonts);
-                    break;
-                case Localize.TargetComponent.FontAsset:
-                    EditorGUILayout.PropertyField(fontAssets, new GUIContent("FontAssets:"), false);
-                    ShowArrayProperty(fontAssets);
                     break;
                 case Localize.TargetComponent.GridLayoutGroup:
                     EditorGUILayout.PropertyField(startCorner, new GUIContent("StartCorner:"), false);
