@@ -8,8 +8,11 @@ Localization System for Unity can be used for both RTL and LTR languages (based 
 - [Installation](#installation)
 - [Documentation](#documentation)
 	- [How to Start](#how-to-start)
+	- [Define a new Language](#define-a-new-language)
 	- [Localization Targets](#localization-targets)
 		- [RTLTextMeshPro](#rtltextmeshpro)
+			- [First looks at CSV file](#first-looks-at-csv-file)
+			- [Add/Edit a LocalizedText](#addedit-a-localizedtext)
 		- [AudioSource](#audiosource)
 		- [Image](#image)
 		- [GridLayoutGroup](#gridlayoutgroup)
@@ -27,7 +30,7 @@ Or clone the project and copy all the assets folder content into your project.
 
 ## How to Start
 
-All files of this localization system can be found in **Assets > Scripts > Localziation**.
+All files of this localization system can be found in **Assets > Scripts > Localization**.
 
 Open Enums.cs script. There are two enums in it which determines the languages and the outlines. You need to add your desired language or outline into these enums in order to use them in the rest of the system.
 
@@ -42,9 +45,38 @@ The rest of the component's view in editor will change according to that target 
 
 For all the targets there are buttons for every language you mentioned in LocalizedLanguage.cs Enum and by clicking on them you can see the preview of applying the localization of that target for that language in the Edit mode.
 
+## Define a new Language
+
+If you want to define a new language, you just have to do the two followings:
+
+* Add it to LocalziationLanguage enum is Enums.cs file.
+* follow the Localziation.csv pattern and add it to the first row of it. (For more information read [this](#first-looks-at-csv-file) part of this document)
+
 ## Localization Targets
 
 ### RTLTextMeshPro
+
+if you choose RTLTextMeshPro as the target, localize component will look like the image below. Then you can use your predefined key so that its value for the current language will be set as your text on Start. Don't worry i will explain everything about this key-value thing :)
+
+Remember that this only works if Localize and RTLTextMeshPro components are attached to the same gameObject.
+
+![Screenshot](Images/RTLTextMeshPro.png)
+
+### First looks at CSV file
+
+In order to use a text in different languages, first you have to define it in the Localization.csv file. You can find it in **Assets > Resources > Localization**.
+
+Every row of this file consists of some texts surrounded by double-quotes and separated by comma. The first row of has the headers of every column and the rest of it consists of a key and some texts for every language. Note that the Localziation System uses this key and the current selected language to set the text value of RTLTextMeshPro component.
+
+### Add/Edit a LocalizedText
+
+In order to add a new localized text, you have to first, specify a key and the value of it for every language. Then you need to do just one of the followings:
+
+* Open the Localization.csv file as a plain text, follow its pattern and add/edit your key and values to a new row.
+* Open the Localization.csv file as in LibreOffice or similar applications and add/edit your key and values to a new row. (Make sure that the saving methods of that application follows our pattern, otherwise it won't work.)
+* Use the ability of this system to add/edit your key and values using the inspector. In the Localize component there is a '+' button. Click on it and you'll see a window like the image below that you can add/edit your key and values there. Note that you should first type in the key and then the values. If the key is repetitive, the value textFields will be filled with its current values. You can also use this window to edit your previously added values (but not the key).
+
+* ![Screenshot](Images/LocalizerWindow.png)
 
 ### AudioSource
 
