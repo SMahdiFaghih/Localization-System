@@ -17,7 +17,7 @@ namespace Localization
             var fontAsset = property.FindPropertyRelative("FontAsset");
 
             EditorGUI.indentLevel += 1;
-            EditorGUILayout.PropertyField(fontAsset, new GUIContent("Font Asset:"), true);
+            EditorGUILayout.PropertyField(fontAsset, new GUIContent("Font Asset"), true);
             EditorGUI.indentLevel -= 1;
 
             var materialPresets = property.FindPropertyRelative("MaterialPresets");

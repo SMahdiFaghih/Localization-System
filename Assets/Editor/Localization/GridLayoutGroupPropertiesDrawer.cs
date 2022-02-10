@@ -13,10 +13,10 @@ namespace Localization
             EditorGUI.BeginProperty(position, label, property);
 
             var startCorner = property.FindPropertyRelative("StartCorner");
-            EditorGUILayout.PropertyField(startCorner, new GUIContent("Start Corner:"), true);
+            EditorGUILayout.PropertyField(startCorner, new GUIContent("Start Corner"), true);
 
             var childAlignment = property.FindPropertyRelative("ChildAlignment");
-            EditorGUILayout.PropertyField(childAlignment, new GUIContent("Child Alignment:"), true);
+            EditorGUILayout.PropertyField(childAlignment, new GUIContent("Child Alignment"), true);
 
             EditorGUI.EndProperty();
         }

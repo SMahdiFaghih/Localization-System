@@ -55,28 +55,28 @@ namespace Localization
                     EditorGUILayout.PropertyField(localizedString, new GUIContent("Key"), true);
                     EditorGUILayout.PropertyField(outline, new GUIContent("Outline"), true);
 
-                    EditorGUILayout.PropertyField(fixedFontAsset, new GUIContent("Fixed FontAsset?"), true);
+                    EditorGUILayout.PropertyField(fixedFontAsset, new GUIContent("Fixed FontAsset"), true);
                     if (TargetLocalize.FixedFontAsset)
                     {
-                        EditorGUILayout.PropertyField(fixedFontAssetDetails, new GUIContent("Fixed FontAsset Details:"), true);
+                        EditorGUILayout.PropertyField(fixedFontAssetDetails, new GUIContent("Fixed FontAsset Details"), true);
                     }
 
-                    EditorGUILayout.PropertyField(isContainsAtSign, new GUIContent("Contains AtSign?(@)"), true);
+                    EditorGUILayout.PropertyField(isContainsAtSign, new GUIContent("Contains AtSign(@)"), true);
                     break;
                 case Localize.TargetComponent.AudioSource:
-                    EditorGUILayout.PropertyField(audioClips, new GUIContent("AudioClips:"), false);
+                    EditorGUILayout.PropertyField(audioClips, new GUIContent("AudioClips"), false);
                     ShowArrayProperty(audioClips);
                     break;
                 case Localize.TargetComponent.Image:
-                    EditorGUILayout.PropertyField(sprites, new GUIContent("Sprites:"), false);
+                    EditorGUILayout.PropertyField(sprites, new GUIContent("Sprites"), false);
                     ShowArrayProperty(sprites);
                     break;
                 case Localize.TargetComponent.GridLayoutGroup:
-                    EditorGUILayout.PropertyField(gridLayoutGroupProperties, new GUIContent("GridLayoutGroupProperties:"), false);
+                    EditorGUILayout.PropertyField(gridLayoutGroupProperties, new GUIContent("GridLayoutGroupProperties"), false);
                     ShowArrayPropertyForCustomClass(gridLayoutGroupProperties);
                     break;
                 case Localize.TargetComponent.HorizontalOrVerticalLayoutGroup:
-                    EditorGUILayout.PropertyField(horizontalOrVerticalLayoutGroupProperties, new GUIContent("HorizontalOrVerticalLayoutGroupProperties:"), false);
+                    EditorGUILayout.PropertyField(horizontalOrVerticalLayoutGroupProperties, new GUIContent("HorizontalOrVerticalLayoutGroupProperties"), false);
                     ShowArrayPropertyForCustomClass(horizontalOrVerticalLayoutGroupProperties);
                     break;
                 case Localize.TargetComponent.Position2D:

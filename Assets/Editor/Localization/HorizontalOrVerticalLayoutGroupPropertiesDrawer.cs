@@ -13,10 +13,10 @@ namespace Localization
             EditorGUI.BeginProperty(position, label, property);
 
             var childAlignment = property.FindPropertyRelative("ChildAlignment");
-            EditorGUILayout.PropertyField(childAlignment, new GUIContent("Child Alignment:"), true);
+            EditorGUILayout.PropertyField(childAlignment, new GUIContent("Child Alignment"), true);
 
             var reverseArrangment = property.FindPropertyRelative("ReverseArrangment");
-            EditorGUILayout.PropertyField(reverseArrangment, new GUIContent("Reverse Arrangment:"), true);
+            EditorGUILayout.PropertyField(reverseArrangment, new GUIContent("Reverse Arrangment"), true);
 
             EditorGUI.EndProperty();
         }
