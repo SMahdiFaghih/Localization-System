@@ -35,10 +35,7 @@ namespace Localization
             DontDestroyOnLoad(gameObject);
 
             LanguageDescriptions = new DescriptionAttributes<LocalizedLanguage>().Descriptions.ToList();
-        }
 
-        private void Start()
-        {
             string language = PlayerPrefs.GetString("Language");
             switch (language)
             {
