@@ -17,7 +17,7 @@ namespace Localization
             Image,
             GridLayoutGroup,
             HorizontalOrVerticalLayoutGroup,
-            Position2D
+            RectTransform
         }
 
         public TargetComponent Target;
@@ -27,7 +27,7 @@ namespace Localization
         [HideInInspector] public Sprite[] Sprites;
         [HideInInspector] public GridLayoutGroupProperties[] GridLayoutGroupProperties;
         [HideInInspector] public HorizontalOrVerticalLayoutGroupProperties[] HorizontalOrVerticalLayoutGroupProperties;
-        [HideInInspector] public Vector2[] Positions;
+        [HideInInspector] public RectTransformProperties[] RectTransformProperties;
         [HideInInspector] public Outline Outline;
         [HideInInspector] public bool FixedFontAsset = false;
         [HideInInspector] public FontAssetDetails FixedFontAssetDetails;
@@ -54,13 +54,13 @@ namespace Localization
                     SetTextValue(languageIndex, editMode);
                     break;
                 case TargetComponent.Image:
-                    Image Image = GetComponent<Image>();
-                    Image.sprite = Sprites[languageIndex];
+                    Image image = GetComponent<Image>();
+                    image.sprite = Sprites[languageIndex];
                     break;
                 case TargetComponent.AudioSource:
-                    AudioSource AudioSource = GetComponent<AudioSource>();
-                    AudioSource.clip = AudioClips[languageIndex];
-                    AudioSource.Play();
+                    AudioSource audioSource = GetComponent<AudioSource>();
+                    audioSource.clip = AudioClips[languageIndex];
+                    audioSource.Play();
                     break;
                 case TargetComponent.GridLayoutGroup:
                     SetGridLayoutGroupProperties(languageIndex);
@@ -68,8 +68,10 @@ namespace Localization
                 case TargetComponent.HorizontalOrVerticalLayoutGroup:
                     SetHorizontalOrVerticalLayoutGroupProperties(languageIndex);
                     break;
-                case TargetComponent.Position2D:
-                    gameObject.transform.localPosition = Positions[languageIndex];
+                case TargetComponent.RectTransform:
+                    RectTransform rectTransform = GetComponent<RectTransform>();
+                    rectTransform.anchoredPosition = RectTransformProperties[languageIndex].AnchoredPosition;
+                    rectTransform.sizeDelta = RectTransformProperties[languageIndex].SizeDelta;
                     break;
             }
 
@@ -234,6 +236,15 @@ namespace Localization
         }
         #endregion
 
+        #region RectTransform
+        public void SetRectTransformProperties(int languageIndex)
+        {
+            RectTransform currentRectTransform = GetComponent<RectTransform>();
+            RectTransformProperties[languageIndex].AnchoredPosition = currentRectTransform.anchoredPosition;  
+            RectTransformProperties[languageIndex].SizeDelta = currentRectTransform.sizeDelta;  
+        }
+        #endregion
+
         void OnValidate()
         {
             int languagesCount = System.Enum.GetNames(typeof(LocalizedLanguage)).Length;
@@ -245,9 +256,9 @@ namespace Localization
             {
                 System.Array.Resize(ref Sprites, languagesCount);
             }
-            if (Positions == null || Positions.Length != languagesCount)
+            if (RectTransformProperties == null || RectTransformProperties.Length != languagesCount)
             {
-                System.Array.Resize(ref Positions, languagesCount);
+                System.Array.Resize(ref RectTransformProperties, languagesCount);
             }
             if (GridLayoutGroupProperties == null || GridLayoutGroupProperties.Length != languagesCount)
             {

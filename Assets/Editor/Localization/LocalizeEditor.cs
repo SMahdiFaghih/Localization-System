@@ -17,7 +17,7 @@ namespace Localization
             localizedString,
             gridLayoutGroupProperties,
             horizontalOrVerticalLayoutGroupProperties,
-            positions,
+            rectTransformProperties,
             outline,
             fixedFontAsset,
             fixedFontAssetDetails,          
@@ -35,7 +35,7 @@ namespace Localization
             gridLayoutGroupProperties = serializedObject.FindProperty("GridLayoutGroupProperties");
             horizontalOrVerticalLayoutGroupProperties = serializedObject.FindProperty("HorizontalOrVerticalLayoutGroupProperties");
             outline = serializedObject.FindProperty("Outline");
-            positions = serializedObject.FindProperty("Positions");
+            rectTransformProperties = serializedObject.FindProperty("RectTransformProperties");
             fixedFontAsset = serializedObject.FindProperty("FixedFontAsset");
             fixedFontAssetDetails = serializedObject.FindProperty("FixedFontAssetDetails");
             isContainsAtSign = serializedObject.FindProperty("IsContainsAtSign");
@@ -72,16 +72,16 @@ namespace Localization
                     ShowArrayProperty(sprites);
                     break;
                 case Localize.TargetComponent.GridLayoutGroup:
-                    EditorGUILayout.PropertyField(gridLayoutGroupProperties, new GUIContent("GridLayoutGroupProperties"), false);
+                    EditorGUILayout.PropertyField(gridLayoutGroupProperties, new GUIContent("GridLayoutGroup Properties"), false);
                     ShowArrayPropertyForCustomClass(gridLayoutGroupProperties);
                     break;
                 case Localize.TargetComponent.HorizontalOrVerticalLayoutGroup:
-                    EditorGUILayout.PropertyField(horizontalOrVerticalLayoutGroupProperties, new GUIContent("HorizontalOrVerticalLayoutGroupProperties"), false);
+                    EditorGUILayout.PropertyField(horizontalOrVerticalLayoutGroupProperties, new GUIContent("HorizontalOrVerticalLayoutGroup Properties"), false);
                     ShowArrayPropertyForCustomClass(horizontalOrVerticalLayoutGroupProperties);
                     break;
-                case Localize.TargetComponent.Position2D:
-                    EditorGUILayout.PropertyField(positions, new GUIContent("2D Positions:"), false);
-                    ShowArrayProperty(positions);
+                case Localize.TargetComponent.RectTransform:
+                    EditorGUILayout.PropertyField(rectTransformProperties, new GUIContent("RectTransform Properties"), false);
+                    ShowButtonsForArrayProperty(rectTransformProperties);
                     break;
             }
 
@@ -113,6 +113,26 @@ namespace Localization
             {
                 EditorGUILayout.LabelField(new GUIContent(System.Enum.GetName(typeof(LocalizedLanguage), i)));
                 EditorGUILayout.PropertyField(list.GetArrayElementAtIndex(i), new GUIContent(System.Enum.GetName(typeof(LocalizedLanguage), i)));
+            }
+            EditorGUI.indentLevel -= 1;
+        }
+
+        public void ShowButtonsForArrayProperty(SerializedProperty list)
+        {
+            EditorGUI.indentLevel += 1;
+            for (int i = 0; i < list.arraySize; i++)
+            {
+                EditorGUILayout.BeginHorizontal();
+
+                EditorGUIUtility.labelWidth = 25;
+                EditorGUILayout.LabelField(new GUIContent(System.Enum.GetName(typeof(LocalizedLanguage), i)));
+
+                if (GUILayout.Button("Apply Current Properties"))
+                {
+                    TargetLocalize.SetRectTransformProperties(i);
+                }
+
+                EditorGUILayout.EndHorizontal();
             }
             EditorGUI.indentLevel -= 1;
         }
