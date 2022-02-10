@@ -15,9 +15,8 @@ namespace Localization
             audioClips,
             sprites,
             localizedString,
-            startCorner,
-            reverseArrangement,
-            changeChildAlignment,
+            gridLayoutGroupProperties,
+            horizontalOrVerticalLayoutGroupProperties,
             positions,
             outline,
             fixedFontAsset,
@@ -33,9 +32,8 @@ namespace Localization
             audioClips = serializedObject.FindProperty("AudioClips");
             sprites = serializedObject.FindProperty("Sprites");
             localizedString = serializedObject.FindProperty("LocalizedString");
-            startCorner = serializedObject.FindProperty("StartCorner");
-            reverseArrangement = serializedObject.FindProperty("ReverseArrangement");
-            changeChildAlignment = serializedObject.FindProperty("ChangeChildAlignment");
+            gridLayoutGroupProperties = serializedObject.FindProperty("GridLayoutGroupProperties");
+            horizontalOrVerticalLayoutGroupProperties = serializedObject.FindProperty("HorizontalOrVerticalLayoutGroupProperties");
             outline = serializedObject.FindProperty("Outline");
             positions = serializedObject.FindProperty("Positions");
             fixedFontAsset = serializedObject.FindProperty("FixedFontAsset");
@@ -53,14 +51,6 @@ namespace Localization
 
             switch (target)
             {
-                case Localize.TargetComponent.AudioSource:
-                    EditorGUILayout.PropertyField(audioClips, new GUIContent("AudioClips:"), false);
-                    ShowArrayProperty(audioClips);
-                    break;
-                case Localize.TargetComponent.Image:
-                    EditorGUILayout.PropertyField(sprites, new GUIContent("Sprites:"), false);
-                    ShowArrayProperty(sprites);
-                    break;
                 case Localize.TargetComponent.RTLTextMeshPro:
                     EditorGUILayout.PropertyField(localizedString, new GUIContent("Key"), true);
                     EditorGUILayout.PropertyField(outline, new GUIContent("Outline"), true);
@@ -73,12 +63,21 @@ namespace Localization
 
                     EditorGUILayout.PropertyField(isContainsAtSign, new GUIContent("Contains AtSign?(@)"), true);
                     break;
+                case Localize.TargetComponent.AudioSource:
+                    EditorGUILayout.PropertyField(audioClips, new GUIContent("AudioClips:"), false);
+                    ShowArrayProperty(audioClips);
+                    break;
+                case Localize.TargetComponent.Image:
+                    EditorGUILayout.PropertyField(sprites, new GUIContent("Sprites:"), false);
+                    ShowArrayProperty(sprites);
+                    break;
                 case Localize.TargetComponent.GridLayoutGroup:
-                    EditorGUILayout.PropertyField(startCorner, new GUIContent("StartCorner:"), false);
+                    EditorGUILayout.PropertyField(gridLayoutGroupProperties, new GUIContent("GridLayoutGroupProperties:"), false);
+                    ShowArrayPropertyForCustomClass(gridLayoutGroupProperties);
                     break;
                 case Localize.TargetComponent.HorizontalOrVerticalLayoutGroup:
-                    EditorGUILayout.PropertyField(reverseArrangement, new GUIContent("ReverseArrangement:"), true);
-                    EditorGUILayout.PropertyField(changeChildAlignment, new GUIContent("Change ChildAlignment:"), true);
+                    EditorGUILayout.PropertyField(horizontalOrVerticalLayoutGroupProperties, new GUIContent("HorizontalOrVerticalLayoutGroupProperties:"), false);
+                    ShowArrayPropertyForCustomClass(horizontalOrVerticalLayoutGroupProperties);
                     break;
                 case Localize.TargetComponent.Position2D:
                     EditorGUILayout.PropertyField(positions, new GUIContent("2D Positions:"), false);
@@ -102,6 +101,17 @@ namespace Localization
             EditorGUI.indentLevel += 1;
             for (int i = 0; i < list.arraySize; i++)
             {
+                EditorGUILayout.PropertyField(list.GetArrayElementAtIndex(i), new GUIContent(System.Enum.GetName(typeof(LocalizedLanguage), i)));
+            }
+            EditorGUI.indentLevel -= 1;
+        }
+
+        public void ShowArrayPropertyForCustomClass(SerializedProperty list)
+        {
+            EditorGUI.indentLevel += 1;
+            for (int i = 0; i < list.arraySize; i++)
+            {
+                EditorGUILayout.LabelField(new GUIContent(System.Enum.GetName(typeof(LocalizedLanguage), i)));
                 EditorGUILayout.PropertyField(list.GetArrayElementAtIndex(i), new GUIContent(System.Enum.GetName(typeof(LocalizedLanguage), i)));
             }
             EditorGUI.indentLevel -= 1;

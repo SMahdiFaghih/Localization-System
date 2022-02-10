@@ -10,12 +10,6 @@ namespace Localization
     [System.Serializable]
     public class Localize : MonoBehaviour
     {
-        public enum GridLayoutStartCorner
-        {
-            LeftRight,
-            UpLow
-        }
-
         public enum TargetComponent
         {
             RTLTextMeshPro,
@@ -31,9 +25,8 @@ namespace Localization
         [HideInInspector] public LocalizedString LocalizedString;
         [HideInInspector] public AudioClip[] AudioClips;
         [HideInInspector] public Sprite[] Sprites;
-        [HideInInspector] public GridLayoutStartCorner StartCorner;
-        [HideInInspector] public bool ReverseArrangement = true;
-        [HideInInspector] public bool ChangeChildAlignment = false;
+        [HideInInspector] public GridLayoutGroupProperties[] GridLayoutGroupProperties;
+        [HideInInspector] public HorizontalOrVerticalLayoutGroupProperties[] HorizontalOrVerticalLayoutGroupProperties;
         [HideInInspector] public Vector2[] Positions;
         [HideInInspector] public Outline Outline;
         [HideInInspector] public bool FixedFontAsset = false;
@@ -70,10 +63,10 @@ namespace Localization
                     AudioSource.Play();
                     break;
                 case TargetComponent.GridLayoutGroup:
-                    SetGridLayoutStartCorner(languageIndex);
+                    SetGridLayoutGroupProperties(languageIndex);
                     break;
                 case TargetComponent.HorizontalOrVerticalLayoutGroup:
-                    SetLayoutGroupChildAlignment(languageIndex);
+                    SetHorizontalOrVerticalLayoutGroupProperties(languageIndex);
                     break;
                 case TargetComponent.Position2D:
                     gameObject.transform.localPosition = Positions[languageIndex];
@@ -224,69 +217,20 @@ namespace Localization
         #endregion
 
         #region GridLayoutGroup
-        private void SetGridLayoutStartCorner(int currentLanguageIndex)
+        private void SetGridLayoutGroupProperties(int currentLanguageIndex)
         {
-            LocalizedLanguage currenctLanguage = (LocalizedLanguage)currentLanguageIndex;
             GridLayoutGroup gridLayoutGroup = GetComponent<GridLayoutGroup>();
-            if (StartCorner == GridLayoutStartCorner.LeftRight)
-            {
-                if (currenctLanguage == LocalizedLanguage.Farsi && gridLayoutGroup.startCorner.ToString().Contains("Left"))
-                {
-                    int alignmentNumber = (int)gridLayoutGroup.startCorner + 1;
-                    gridLayoutGroup.startCorner = (GridLayoutGroup.Corner)alignmentNumber;
-                }
-                else if (currenctLanguage != LocalizedLanguage.Farsi && gridLayoutGroup.startCorner.ToString().Contains("Right"))
-                {
-                    int alignmentNumber = (int)gridLayoutGroup.startCorner - 1;
-                    gridLayoutGroup.startCorner = (GridLayoutGroup.Corner)alignmentNumber;
-                }
-            }
-            else if (StartCorner == GridLayoutStartCorner.UpLow)
-            {
-                if (currenctLanguage == LocalizedLanguage.Farsi && gridLayoutGroup.startCorner.ToString().Contains("Low"))
-                {
-                    int alignmentNumber = (int)gridLayoutGroup.startCorner - 2;
-                    gridLayoutGroup.startCorner = (GridLayoutGroup.Corner)alignmentNumber;
-                }
-                else if (currenctLanguage != LocalizedLanguage.Farsi && gridLayoutGroup.startCorner.ToString().Contains("Up"))
-                {
-                    int alignmentNumber = (int)gridLayoutGroup.startCorner + 2;
-                    gridLayoutGroup.startCorner = (GridLayoutGroup.Corner)alignmentNumber;
-                }
-            }
-            gridLayoutGroup.enabled = false;
-            gridLayoutGroup.enabled = true;
+            gridLayoutGroup.startCorner = GridLayoutGroupProperties[currentLanguageIndex].StartCorner;
+            gridLayoutGroup.childAlignment = GridLayoutGroupProperties[currentLanguageIndex].ChildAlignment;
         }
         #endregion
 
         #region HorizontalOrVerticalLayoutGroup
-        private void SetLayoutGroupChildAlignment(int currentLanguageIndex)
+        private void SetHorizontalOrVerticalLayoutGroupProperties(int currentLanguageIndex)
         {
-            LocalizedLanguage currenctLanguage = (LocalizedLanguage)currentLanguageIndex;
-
             HorizontalOrVerticalLayoutGroup horizontalOrVerticalLayoutGroup = GetComponent<HorizontalOrVerticalLayoutGroup>();
-            if (currenctLanguage == LocalizedLanguage.Farsi && ReverseArrangement)
-            {
-                horizontalOrVerticalLayoutGroup.reverseArrangement = true;
-            }
-            else
-            {
-                horizontalOrVerticalLayoutGroup.reverseArrangement = false;
-            }
-
-            if (ChangeChildAlignment == true)
-            {
-                if (currenctLanguage == LocalizedLanguage.Farsi && horizontalOrVerticalLayoutGroup.childAlignment.ToString().Contains("Left"))
-                {
-                    int alignmentNumber = (int)horizontalOrVerticalLayoutGroup.childAlignment + 2;
-                    horizontalOrVerticalLayoutGroup.childAlignment = (TextAnchor)alignmentNumber;
-                }
-                else if (currenctLanguage != LocalizedLanguage.Farsi && horizontalOrVerticalLayoutGroup.childAlignment.ToString().Contains("Right"))
-                {
-                    int alignmentNumber = (int)horizontalOrVerticalLayoutGroup.childAlignment - 2;
-                    horizontalOrVerticalLayoutGroup.childAlignment = (TextAnchor)alignmentNumber;
-                }
-            }
+            horizontalOrVerticalLayoutGroup.childAlignment = HorizontalOrVerticalLayoutGroupProperties[currentLanguageIndex].ChildAlignment;
+            horizontalOrVerticalLayoutGroup.reverseArrangement = HorizontalOrVerticalLayoutGroupProperties[currentLanguageIndex].ReverseArrangment;   
         }
         #endregion
 
@@ -304,6 +248,14 @@ namespace Localization
             if (Positions == null || Positions.Length != languagesCount)
             {
                 System.Array.Resize(ref Positions, languagesCount);
+            }
+            if (GridLayoutGroupProperties == null || GridLayoutGroupProperties.Length != languagesCount)
+            {
+                System.Array.Resize(ref GridLayoutGroupProperties, languagesCount);
+            }
+            if (HorizontalOrVerticalLayoutGroupProperties == null || HorizontalOrVerticalLayoutGroupProperties.Length != languagesCount)
+            {
+                System.Array.Resize(ref HorizontalOrVerticalLayoutGroupProperties, languagesCount);
             }
 
             int outilnesCount = System.Enum.GetNames(typeof(Outline)).Length;

@@ -1,14 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using TMPro;
 
 namespace Localization
 {
     [System.Serializable]
-    public class FontAssetDetails
+    public class HorizontalOrVerticalLayoutGroupProperties
     {
-        public TMP_FontAsset FontAsset;
-        public Material[] MaterialPresets;
+        public TextAnchor ChildAlignment;
+        public bool ReverseArrangment;
     }
 }
