@@ -9,10 +9,17 @@ Localization System for Unity can be used for both RTL and LTR languages (based 
 - [Documentation](#documentation)
 	- [How to Start](#how-to-start)
 	- [Define a new Language](#define-a-new-language)
+	- [Create a new FontAsset](#create-a-new-fontasset)
+	- [Define a new Outline](#define-a-new-outline)
 	- [Localization Targets](#localization-targets)
 		- [RTLTextMeshPro](#rtltextmeshpro)
 			- [First looks at CSV file](#first-looks-at-csv-file)
 			- [Add/Edit a LocalizedText](#addedit-a-localizedtext)
+			- [Search/Delete existing LocalizedTexts](#searchdelete-existing-localizedtexts)
+			- [Fixed FontAsset](#fixed-fontasset)
+			- [Set key and adjust values dynamically](#set-key-and-adjust-values-dynamically)
+			- [Multiline texts](#multiline-texts)
+			- [Keyless values](#keyless-values)
 		- [AudioSource](#audiosource)
 		- [Image](#image)
 		- [GridLayoutGroup](#gridlayoutgroup)
@@ -52,6 +59,24 @@ If you want to define a new language, you just have to do the two followings:
 * Add it to LocalziationLanguage enum is Enums.cs file.
 * follow the Localziation.csv pattern and add it to the first row of it. (For more information read [this](#first-looks-at-csv-file) part of this document)
 
+## Create a new FontAsset
+
+In order to use Localziation for RTLTextMeshPro, you need to use FontAssets and not Fonts. But don't worry, you can easily create a FontAsset using your TTF file.
+I used some different settings for the original .ttf file and some of them has some problems for outlines after creating a FontAsset using them. So i suggest you to use the following settings for your .ttf file using the inspector and hit apply.
+
+![Screenshot](Images/FontSettings.png)
+
+Then right click on the .ttf file and create a FontAsset from **Create > TextMeshPro > FontAsset**. For more information about FontAsset and its different properties please checkout [here](https://learn.unity.com/tutorial/textmesh-pro-font-asset-creation).
+
+## Define a new Outline
+
+If you want to define a new outline, you just have to do the two followings:
+
+* Every FontAsset has an **Atlas Material**. copy it from the used fontAssets and set your desired **Thickness** and **Color** for the outline using the inspector. I suggest you to set its **Shader** to **TextMeshPro Fixed/Mobile/Distance Field** as its shown in the image below.
+* Give it a name and add it to Outline enum is Enums.cs file. Then a new slot will be added for every language in the Localization Manager that you can select or drag and drop your previously created Material.
+
+* ![Screenshot](Images/Outline.png)
+
 ## Localization Targets
 
 ### RTLTextMeshPro
@@ -77,6 +102,34 @@ In order to add a new localized text, you have to first, specify a key and the v
 * Use the ability of this system to add/edit your key and values using the inspector. In the Localize component there is a '+' button. Click on it and you'll see a window like the image below that you can add/edit your key and values there. Note that you should first type in the key and then the values. If the key is repetitive, the value textFields will be filled with its current values. You can also use this window to edit your previously added values (but not the key).
 
 * ![Screenshot](Images/LocalizerWindow.png)
+
+### Search/Delete existing LocalizedTexts
+
+There is a search icon in Localize component that by clicking on it you can search between saved data in Localization.csv and check if a particular key or localized value exists. Using it, you can also delete keys (and their values of course) from file by just clicking on 'x' button next to them.
+
+![Screenshot](Images/Search.png)
+
+### Fixed FontAsset
+
+Localization system sets your selected fontAsset for every RTLTextMeshPro component. But sometimes for a certain text, you just what the text to change and you wan to use a fixed fontAsset for all the languages. In this case you must check the Fixed FontAsset checkbox and assign your desired FontAsset and its outlines according to the image below.
+
+![Screenshot](Images/FixedFontAsset.png)
+
+### Set key and adjust values dynamically
+
+Sometimes thet text that must shown in a certain RTLTextMeshPro, is not fixed and you should set it from the code. For these situations you should leave the Key inputFiled empty (in Localize component) and use the code and **SetKey** function to set that key and the value will be applied to that RTLTextMeshPro immediately.
+
+Sometimes your text has some parts that should be calculated in your code, for these situations you should write **'#'** character for that parts in values of that key in Localization.csv file. then by using the same **SetKey** function and passing string parameters, localization system will replace '#' characters with them in the same order you pass them to this function. There is a example for it in **TextLocalizationByCode** scene and **TextLocalizationSample** script.
+
+### Multiline texts
+
+Sometimes you have a multiline text and you want to use Localization to set it. in the Localziation.csv file all values of a certain key must be in a single line so, to do this, you can use **'@'** character in your value wherever you need the rest of it to be written in the next line. There is a example for it in **TextLocalizationByCode** scene and **TextLocalizationSample** script.
+
+This may cause problem for texts that contain emails or any other situations that you want to use '@' character in your text. So to fix this problem, for these texts you must check the **Contains AtSign(@)** checkbox in the Localize component.
+
+### Keyless values
+
+Sometimes your text doesn't have any key (i.g. its just a number or a date) and you just want the proper fontAsset to be set for it. In these situations just leave the Key inputFiled empty (in Localize component) and set your text using the normal way (RTLTextMeshPro.text = 'your text'). Localize component will set fontAsset and other settings on Start even if the Key inputField is empty.
 
 ### AudioSource
 
