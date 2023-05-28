@@ -8,7 +8,7 @@ namespace Localization
 {
     public class CSVLoader
     {
-        private TextAsset CSVFile;
+        private string CSVFile;
         private readonly char LineSeparator = '\n';
         private readonly string[] FieldSeperator = { "\",\"" };
 
@@ -17,14 +17,22 @@ namespace Localization
 
         public void LoadCSV()
         {
-            CSVFile = Resources.Load<TextAsset>("Localization/Localization");
+            try
+            {
+                CSVFile = Resources.Load<TextAsset>("Localization/Localization").text;
+                EncryptionManager.EncryptString(CSVFile);
+            }
+            catch (Exception)
+            {
+                CSVFile = EncryptionManager.DecryptString(Resources.Load<TextAsset>("Localization/Localization-Encrypted").text);
+            }
+
             SeparateFields();
         }
 
         private void SeparateFields()
         {
-            Lines = CSVFile.text.Split(LineSeparator);
-
+            Lines = CSVFile.Split(LineSeparator);
             LineFields = new string[Lines.Length][];
 
             for (int i = 0; i < Lines.Length; i++)
@@ -90,19 +98,16 @@ namespace Localization
 
         public void Remove(string key)
         {
-            string[] lines = CSVFile.text.Split(LineSeparator);
-
+            string[] lines = CSVFile.Split(LineSeparator);
             string[] keys = new string[lines.Length];
 
             for (int i = 0; i < lines.Length; i++)
             {
                 string line = lines[i];
-
                 keys[i] = line.Split(FieldSeperator, StringSplitOptions.None)[0].Replace("\"", "");
             }
 
             int index = -1;
-
             for (int i = 0; i < keys.Length; i++)
             {
                 if (keys[i] == key)
@@ -127,8 +132,6 @@ namespace Localization
             Remove(key);
             Add(key, values);
         }
-
 #endif
     }
-
 }

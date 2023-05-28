@@ -120,33 +120,10 @@ namespace Localization
 
         public static void SetInstance()
         {
-            /*if (Instance == null)
+            if (Instance == null)
             {
                 Instance = GameObject.FindObjectOfType<LocalizationManager>();
             }
-
-            RTLTextMeshPro[] rtl = Resources.FindObjectsOfTypeAll<RTLTextMeshPro>();
-            Color32 color = new Color32(251, 246, 221, 255);
-            foreach (RTLTextMeshPro rTLTextMeshPro in rtl)
-            {
-                if (rTLTextMeshPro.color.r == 1 && rTLTextMeshPro.color.g == 1 && rTLTextMeshPro.color.b == 1)
-                {
-                    rTLTextMeshPro.color = color;
-                }
-                //rTLTextMeshPro.alignment = TextAlignmentOptions.Midline;
-                //rTLTextMeshPro.font = Instance.FarsiFontAsset;
-                rTLTextMeshPro.lineSpacing = 30;
-                rTLTextMeshPro.raycastTarget = false;
-                /* Localize localize = rTLTextMeshPro.gameObject.GetComponent<Localize>();
-                if (localize != null)
-                {
-                    localize.ApplyLocalization(1, true);
-                }
-                else
-                {
-                    rTLTextMeshPro.fontSharedMaterial = Instance.FarsiMaterialPresets[4];
-                }
-            }*/
         }
 
         public void ChangeLanguage(string language)
