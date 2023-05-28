@@ -20,7 +20,9 @@ namespace Localization
             try
             {
                 CSVFile = Resources.Load<TextAsset>("Localization/Localization").text;
+#if UNITY_EDITOR
                 EncryptionManager.EncryptString(CSVFile);
+#endif
             }
             catch (Exception)
             {
