@@ -1,3 +1,6 @@
+# Everything Localization
+For an enhanced version of this Localization system with optimized code, improved UX to Add/Edit Languages and Outlines, improved audio support, and compatibility with all Text and Image components, explore [Everything Localization on AssetStore](https://assetstore.unity.com/packages/tools/localization/everything-localization-276236)
+
 
 # Localization-System
 Localization System for Unity can be used for both RTL and LTR languages (based on CSV file). You can use your desired outline for the texts and also add strings to the predefined localization values dynamically.
